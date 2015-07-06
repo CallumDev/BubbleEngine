@@ -1,18 +1,24 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Folders
+obj/
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Visual Studio
+*.suo
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# MonoDevelop
+.userprefs
+
+# Gedit
+*~
+
+# OSX files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
 
 # Shared objects (inc. Windows DLLs)
 *.dll
