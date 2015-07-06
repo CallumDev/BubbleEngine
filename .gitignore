@@ -8,7 +8,7 @@ obj/
 *.suo
 
 # MonoDevelop
-.userprefs
+*.userprefs
 
 # Gedit
 *~
