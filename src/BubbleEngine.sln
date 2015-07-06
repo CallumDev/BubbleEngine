@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleEngine", "BubbleEngine\BubbleEngine.csproj", "{E40BB791-C527-49E4-8460-43B2CD92DC56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubbleEngine.Base", "BubbleEngine.Base\BubbleEngine.Base.csproj", "{1D05AECF-BF32-46D2-B937-E5312D9F87E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D05AECF-BF32-46D2-B937-E5312D9F87E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D05AECF-BF32-46D2-B937-E5312D9F87E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D05AECF-BF32-46D2-B937-E5312D9F87E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D05AECF-BF32-46D2-B937-E5312D9F87E3}.Release|x86.Build.0 = Release|Any CPU
+		{E40BB791-C527-49E4-8460-43B2CD92DC56}.Debug|x86.ActiveCfg = Debug|x86
+		{E40BB791-C527-49E4-8460-43B2CD92DC56}.Debug|x86.Build.0 = Debug|x86
+		{E40BB791-C527-49E4-8460-43B2CD92DC56}.Release|x86.ActiveCfg = Release|x86
+		{E40BB791-C527-49E4-8460-43B2CD92DC56}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal

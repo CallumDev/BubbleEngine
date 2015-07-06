@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="BubbleEngine/BubbleEngine.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="BubbleEngine.Base/MyClass.cs">
+    <Files>
+      <File FileName="BubbleEngine.Base/MyClass.cs" Line="4" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
