@@ -206,10 +206,10 @@ namespace BubbleEngine
 			var loader = Platform.GetDllLoader ();
 			string lib;
 			//mac libraries
-			if (System.Diagnostics.Debugger.IsAttached) {
-				lib = "../libSDL2-x86.dylib";
+			if (!Environment.Is64BitProcess) {
+				lib = "libSDL2.x86.dylib";
 			} else {
-				lib = "/usr/local/lib/libSDL2.dylib";
+				lib = "libSDL2.dylib";
 			}
 			//linux + windows libraries (don't need a specific path)
 			if (Platform.CurrentPlatform == Platforms.Linux)

@@ -39,6 +39,9 @@
     <Compile Include="Interop\SDL2.Events.cs" />
     <Compile Include="Interop\SDL2.Keyboard.cs" />
     <Compile Include="Interop\GL.cs" />
+    <Compile Include="GameBase.cs" />
+    <Compile Include="GraphicsSettings.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

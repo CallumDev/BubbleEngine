@@ -6,7 +6,9 @@ namespace BubbleEngine
 	{
 		public static void Main (string[] args)
 		{
-			Console.WriteLine ("Hello World!");
+			//Test opening of game window
+			var b = new GameBase ();
+			b.Run ();
 		}
 	}
 }
