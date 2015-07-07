@@ -22,6 +22,7 @@ namespace BubbleEngine
 		public void Run()
 		{
 			Init ();
+			Load ();
 			//Game loop
 			running = true;
 			var timer = new Stopwatch();
@@ -63,11 +64,18 @@ namespace BubbleEngine
 		{
 			var w = GraphicsSettings.RequestedWidth;
 			var h = GraphicsSettings.RequestedHeight;
+
 			SDL2.SDL_SetWindowSize (Window.Handle, w, h);
 			if (fullscreen != GraphicsSettings.Fullscreen) {
 				SDL2.SDL_SetWindowFullscreen (Window.Handle, GraphicsSettings.Fullscreen ? SDL2.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 				fullscreen = GraphicsSettings.Fullscreen;
 			}
+			Window.Width = w;
+			Window.Height = h;
+		}
+		protected virtual void Load()
+		{
+
 		}
 		protected virtual void Update(GameTime gameTime)
 		{
@@ -119,6 +127,9 @@ namespace BubbleEngine
 				GraphicsSettings.RequestedHeight,
 				flags
 			);
+			Window.Width = GraphicsSettings.RequestedWidth;
+			Window.Height = GraphicsSettings.RequestedHeight;
+
 			if (sdlWin == IntPtr.Zero) {
 				SDL2.SDL_ShowSimpleMessageBox (
 					SDL2.SDL_MESSAGEBOX_ERROR,

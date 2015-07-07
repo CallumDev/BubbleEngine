@@ -12,6 +12,10 @@ namespace BubbleEngine
 	[StructLayout(LayoutKind.Sequential)]
 	public struct ByteColor
 	{
+		//colors
+		public static readonly ByteColor White = new ByteColor(255,255,255,255);
+		public static readonly ByteColor Black = new ByteColor(0,0,0,255);
+		//instance
 		public byte R;
 		public byte G;
 		public byte B;

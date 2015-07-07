@@ -21,6 +21,8 @@ namespace BubbleEngine
 					SDL2.SDL_SetWindowTitle (Handle, title);
 			}
 		}
+		public int Width { get; internal set; }
+		public int Height { get; internal set; }
 		internal Window ()
 		{
 		}

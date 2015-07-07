@@ -48,6 +48,12 @@
     <Compile Include="Math\ByteColor.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Math\Rectangle.cs" />
+    <Compile Include="SpriteBatch.cs" />
+    <Compile Include="SpriteBatch.Primitives.cs" />
+    <Compile Include="SpriteEffects.cs" />
+    <Compile Include="SpriteBatch.Shaders.cs" />
+    <Compile Include="Math\Matrix4.cs" />
+    <Compile Include="Math\Vector4.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
