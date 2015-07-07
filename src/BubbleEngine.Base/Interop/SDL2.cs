@@ -36,6 +36,7 @@ namespace BubbleEngine
 	static partial class SDL2
 	{
 		#region Init
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int Init(uint flags);
 		public static Init SDL_Init;
 		public const uint SDL_INIT_TIMER 		=	0x00000001;
@@ -49,11 +50,13 @@ namespace BubbleEngine
 		#endregion
 
 		#region Quit
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void Quit();
 		public static Quit SDL_Quit;
 		#endregion
 
 		#region Message Box
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int ShowSimpleMessageBox(
 			uint flags,
 			string title,
@@ -66,6 +69,7 @@ namespace BubbleEngine
 		#endregion
 
 		#region Window Creation
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr CreateWindow(
 			string title,
 			int x,
@@ -123,22 +127,27 @@ namespace BubbleEngine
 		#endregion
 
 		#region Window Size
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void GetWindowSize(IntPtr window, out int w, out int h);
 		public static GetWindowSize SDL_GetWindowSize;
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void SetWindowSize(IntPtr window, int w, int h);
 		public static SetWindowSize SDL_SetWindowSize;
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int SetWindowFullscreen(IntPtr window, SDL_WindowFlags flags);
 		public static SetWindowFullscreen SDL_SetWindowFullscreen;
 		#endregion
 
 		#region Window Title
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void SetWindowTitle(IntPtr window, string title);
 		public static SetWindowTitle SDL_SetWindowTitle;
 		#endregion
 
 		#region GL Attributes
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int GL_SetAttribute(
 			SDL_GLattr attr,
 			int value
@@ -185,11 +194,13 @@ namespace BubbleEngine
 		#endregion
 
 		#region GL Context
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr GL_CreateContext(IntPtr window);
 		public static GL_CreateContext SDL_GL_CreateContext;
 		#endregion
 
 		#region GetProcAddress
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate IntPtr GL_GetProcAddress(
 			string proc
 		);
@@ -197,6 +208,7 @@ namespace BubbleEngine
 		#endregion
 
 		#region Flip Window
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void GL_SwapWindow(IntPtr window);
 		public static GL_SwapWindow SDL_GL_SwapWindow;
 		#endregion

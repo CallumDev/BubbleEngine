@@ -142,7 +142,7 @@ namespace BubbleEngine
 				return;
 			}
 			//Load gl pointers
-			GL.Load();
+			GL.Load(false);
 			//Base gl state
 			GL.glEnable (GL.GL_BLEND);
 			GL.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);

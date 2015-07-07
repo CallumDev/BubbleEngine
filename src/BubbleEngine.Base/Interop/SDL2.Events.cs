@@ -516,6 +516,7 @@ namespace BubbleEngine
 		public const int SDL_BUTTON_X1       = 4;
 		public const int  SDL_BUTTON_X2       = 5;
 
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int PollEvent(out SDL_Event _event);
 		public static PollEvent SDL_PollEvent;
 	}

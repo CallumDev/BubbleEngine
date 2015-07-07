@@ -59,9 +59,11 @@
     </None>
     <None Include="..\..\BubbleDependencies\SDL2.x64.dll">
       <Link>SDL2.x64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\BubbleDependencies\SDL2.x86.dll">
       <Link>SDL2.x86.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>
