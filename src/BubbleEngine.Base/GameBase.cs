@@ -119,6 +119,15 @@ namespace BubbleEngine
 				GraphicsSettings.RequestedHeight,
 				flags
 			);
+			if (sdlWin == IntPtr.Zero) {
+				SDL2.SDL_ShowSimpleMessageBox (
+					SDL2.SDL_MESSAGEBOX_ERROR,
+					"Error",
+					"SDL_CreateWindow failed, exiting.",
+					IntPtr.Zero
+				);
+				return;
+			}
 			Window.Handle = sdlWin;
 			//create gl context
 			var glcontext = SDL2.SDL_GL_CreateContext(sdlWin);
