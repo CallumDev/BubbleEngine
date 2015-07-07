@@ -1,0 +1,3 @@
+[submodule "BubbleDependencies"]
+	path = BubbleDependencies
+	url = https://github.com/CallumDev/BubbleDependencies.git
