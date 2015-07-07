@@ -43,10 +43,14 @@
     <Compile Include="GraphicsSettings.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="GameTime.cs" />
+    <Compile Include="Math\Vector2.cs" />
+    <Compile Include="Math\Color4.cs" />
+    <Compile Include="Math\ByteColor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Interop\" />
+    <Folder Include="Math\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\BubbleDependencies\libSDL2.x64.dylib">
