@@ -13,31 +13,25 @@ namespace BubbleEngine
 {
 	static class GL
 	{
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void ClearColor(float r, float g, float b, float a);
 		public static ClearColor glClearColor;
 
 		public const int GL_COLOR_BUFFER_BIT = 0x00004000;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void Clear(int flags);
 		public static Clear glClear;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void Viewport(int x, int y, int width, int height);
 		public static Viewport glViewport;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate uint CreateShader(int shaderType);
 		public static CreateShader glCreateShader;
 		public const int GL_FRAGMENT_SHADER = 0x8B30;
 		public const int GL_VERTEX_SHADER = 0x8B31;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void GenTextures(int n, out uint textures);
 		public static GenTextures glGenTextures;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void TexParameteri(int target, int pname, int param);
 		public static TexParameteri glTexParameteri;
 		public const int GL_TEXTURE_2D = 0x0DE1;
@@ -45,21 +39,17 @@ namespace BubbleEngine
 		public const int GL_TEXTURE_MAG_FILTER = 0x2800;
 		public const int GL_LINEAR = 0x2601;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void BindTexture(int target, uint id);
 		public static BindTexture glBindTexture;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void TexImage2D(int target, int level, int internalFormat, int width, int height, int border, int format, int type, IntPtr data);
 		public static TexImage2D glTexImage2D;
 		public const int GL_RGBA = 0x1908;
 		public const int GL_UNSIGNED_BYTE = 0x1401;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void TexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, IntPtr data);
 		public static TexSubImage2D glTexSubImage2D;
 
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		delegate void gShaderSource(uint shader, int count, ref IntPtr str, IntPtr length);
 		static gShaderSource glShaderSource;
 		public static unsafe void ShaderSource(uint shader, string s)
