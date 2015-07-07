@@ -32,14 +32,17 @@ namespace BubbleEngine
 				//SDL2 events
 				ProcessEvents ();
 				//Run game code
+				var t = new GameTime(TimeSpan.FromSeconds(elapsed), timer.Elapsed);
+
 				if (running) {
 					//TODO: Update
+					Update(t);
 				}
 				if (running) {
 					GL.glClearColor (0f, 0f, 0f, 1f);
 					GL.glClear (GL.GL_COLOR_BUFFER_BIT);
 					//TODO: Draw
-
+					Draw(t);
 				}
 				//Time
 				elapsed = timer.Elapsed.TotalSeconds - last;
@@ -54,6 +57,25 @@ namespace BubbleEngine
 			}
 			timer.Stop ();
 			SDL2.SDL_Quit ();
+		}
+		bool fullscreen;
+		public void ApplyGraphicsMode()
+		{
+			var w = GraphicsSettings.RequestedWidth;
+			var h = GraphicsSettings.RequestedHeight;
+			SDL2.SDL_SetWindowSize (Window.Handle, w, h);
+			if (fullscreen != GraphicsSettings.Fullscreen) {
+				SDL2.SDL_SetWindowFullScreen (Window.Handle, GraphicsSettings.Fullscreen ? SDL2.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+				fullscreen = GraphicsSettings.Fullscreen;
+			}
+		}
+		protected virtual void Update(GameTime gameTime)
+		{
+
+		}
+		protected virtual void Draw(GameTime gameTime)
+		{
+
 		}
 		void ProcessEvents()
 		{
@@ -85,13 +107,17 @@ namespace BubbleEngine
 			SDL2.SDL_GL_SetAttribute (SDL2.SDL_GLattr.SDL_GL_CONTEXT_PROFILE_MASK, 
 				(int)SDL2.SDL_GLprofile.SDL_GL_CONTEXT_PROFILE_CORE);
 			//create window
+			fullscreen = GraphicsSettings.Fullscreen;
+			var flags = GraphicsSettings.Fullscreen ?
+				SDL2.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP | SDL2.SDL_WindowFlags.SDL_WINDOW_OPENGL :
+				SDL2.SDL_WindowFlags.SDL_WINDOW_OPENGL;
 			var sdlWin = SDL2.SDL_CreateWindow (
 				Window.Title,
 				SDL2.SDL_WINDOWPOS_CENTERED,
 				SDL2.SDL_WINDOWPOS_CENTERED,
 				GraphicsSettings.RequestedWidth,
 				GraphicsSettings.RequestedHeight,
-				SDL2.SDL_WindowFlags.SDL_WINDOW_OPENGL
+				flags
 			);
 			Window.Handle = sdlWin;
 			//create gl context

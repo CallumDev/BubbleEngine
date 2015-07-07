@@ -128,6 +128,9 @@ namespace BubbleEngine
 
 		public delegate void SetWindowSize(IntPtr window, int w, int h);
 		public static SetWindowSize SDL_SetWindowSize;
+
+		public delegate int SetWindowFullScreen(IntPtr window, SDL_WindowFlags flags);
+		public static SetWindowFullScreen SDL_SetWindowFullScreen;
 		#endregion
 
 		#region Window Title
