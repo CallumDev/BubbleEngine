@@ -217,8 +217,13 @@ namespace BubbleEngine
 			//linux + windows libraries (don't need a specific path)
 			if (Platform.CurrentPlatform == Platforms.Linux)
 				lib = "libSDL2.so";
-			else if (Platform.CurrentPlatform == Platforms.Windows)
-				lib = "SDL2.dll";
+			else if (Platform.CurrentPlatform == Platforms.Windows) {
+				if (Environment.Is64BitProcess) {
+					lib = "SDL2.x64.dll";
+				} else {
+					lib = "SDL2.x86.dll";
+				}
+			}
 			var sdl2_ptr = loader.LoadLibrary (lib);
 			var t = typeof (SDL2);
 			Console.WriteLine ("SDL2: {0}", lib);
