@@ -46,6 +46,8 @@
     <Compile Include="Math\Vector2.cs" />
     <Compile Include="Math\Color4.cs" />
     <Compile Include="Math\ByteColor.cs" />
+    <Compile Include="Texture.cs" />
+    <Compile Include="Math\Rectangle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
