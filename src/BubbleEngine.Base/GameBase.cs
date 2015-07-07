@@ -65,7 +65,7 @@ namespace BubbleEngine
 			var h = GraphicsSettings.RequestedHeight;
 			SDL2.SDL_SetWindowSize (Window.Handle, w, h);
 			if (fullscreen != GraphicsSettings.Fullscreen) {
-				SDL2.SDL_SetWindowFullScreen (Window.Handle, GraphicsSettings.Fullscreen ? SDL2.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+				SDL2.SDL_SetWindowFullscreen (Window.Handle, GraphicsSettings.Fullscreen ? SDL2.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 				fullscreen = GraphicsSettings.Fullscreen;
 			}
 		}

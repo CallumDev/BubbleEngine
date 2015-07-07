@@ -48,4 +48,14 @@
   <ItemGroup>
     <Folder Include="Interop\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\BubbleDependencies\libSDL2.x64.dylib">
+      <Link>libSDL2.x64.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\libSDL2.x86.dylib">
+      <Link>libSDL2.x86.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

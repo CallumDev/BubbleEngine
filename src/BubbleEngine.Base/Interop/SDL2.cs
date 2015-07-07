@@ -129,8 +129,8 @@ namespace BubbleEngine
 		public delegate void SetWindowSize(IntPtr window, int w, int h);
 		public static SetWindowSize SDL_SetWindowSize;
 
-		public delegate int SetWindowFullScreen(IntPtr window, SDL_WindowFlags flags);
-		public static SetWindowFullScreen SDL_SetWindowFullScreen;
+		public delegate int SetWindowFullscreen(IntPtr window, SDL_WindowFlags flags);
+		public static SetWindowFullscreen SDL_SetWindowFullscreen;
 		#endregion
 
 		#region Window Title
@@ -212,7 +212,7 @@ namespace BubbleEngine
 			if (!Environment.Is64BitProcess) {
 				lib = "libSDL2.x86.dylib";
 			} else {
-				lib = "libSDL2.dylib";
+				lib = "libSDL2.x64.dylib";
 			}
 			//linux + windows libraries (don't need a specific path)
 			if (Platform.CurrentPlatform == Platforms.Linux)
