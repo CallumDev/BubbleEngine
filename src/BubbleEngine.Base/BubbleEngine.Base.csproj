@@ -54,11 +54,14 @@
     <Compile Include="SpriteBatch.Shaders.cs" />
     <Compile Include="Math\Matrix4.cs" />
     <Compile Include="Math\Vector4.cs" />
+    <Compile Include="Png\BinaryReaderExtensions.cs" />
+    <Compile Include="Png\PngLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Interop\" />
     <Folder Include="Math\" />
+    <Folder Include="Png\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\BubbleDependencies\libSDL2.x64.dylib">
