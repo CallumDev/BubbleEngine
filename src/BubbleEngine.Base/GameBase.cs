@@ -21,6 +21,7 @@ namespace BubbleEngine
 
 		public void Run()
 		{
+			Threading.RegisterUIThread ();
 			Init ();
 			Load ();
 			//Game loop
@@ -32,6 +33,8 @@ namespace BubbleEngine
 			while (running) {
 				//SDL2 events
 				ProcessEvents ();
+				//Run code for UI thread
+				Threading.Update();
 				//Run game code
 				var t = new GameTime(TimeSpan.FromSeconds(elapsed), timer.Elapsed);
 

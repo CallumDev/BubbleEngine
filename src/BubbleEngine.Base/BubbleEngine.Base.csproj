@@ -57,6 +57,7 @@
     <Compile Include="Loaders\Png\PngLoader.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
     <Compile Include="Loaders\BinaryReaderExtensions.cs" />
+    <Compile Include="Threading.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
