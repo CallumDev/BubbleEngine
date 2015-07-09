@@ -6,7 +6,7 @@ using System.Text;
 //TODO: Refactor and optimise PngLoader
 namespace BubbleEngine
 {
-	public static class PngLoader
+	static class PngLoader
 	{
 		const ulong PNG_SIGNATURE = 0xA1A0A0D474E5089;
 
@@ -27,15 +27,22 @@ namespace BubbleEngine
 			Average = 3,
 			Paeth = 4
 		}
-
-		public static Texture LoadPng(string filename)
+		public static bool IsPng(Stream stream)
+		{
+			byte[] bytes = new byte[8];
+			stream.Read (bytes, 0, 8);
+			bool result = BitConverter.ToUInt64 (bytes, 0) == PNG_SIGNATURE;
+			stream.Position = 0;
+			return result;
+		}
+		public static Texture LoadPng(Stream stream)
 		{
 			List<byte> idat = new List<byte> ();
 			byte bitDepth = 0;
 			ColorType colorType = ColorType.Grayscale;
 			ByteColor[] palette = null;
 			int width = 0, height = 0;
-			using (var reader = new BinaryReader (File.OpenRead (filename))) {
+			using (var reader = new BinaryReader (stream)) {
 				if (reader.ReadUInt64 () != PNG_SIGNATURE) {
 					throw new Exception ("Not a PNG file");
 				}

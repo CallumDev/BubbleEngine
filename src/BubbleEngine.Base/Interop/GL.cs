@@ -160,11 +160,8 @@ namespace BubbleEngine
 			Marshal.FreeHGlobal (ptr);
 			return str;
 		}
-		#if DEBUG
-		public static void Load(bool checkErrors = true)
-		#else
-		public static void Load(bool checkErrors = false)
-		#endif
+
+		public static void Load()
 		{
 			var t = typeof (GL);
 			foreach (var f in t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)) {
@@ -173,73 +170,8 @@ namespace BubbleEngine
 					f.FieldType.BaseType == typeof(Delegate)) {
 					var ptr = SDL2.SDL_GL_GetProcAddress (f.Name);
 					var del = Marshal.GetDelegateForFunctionPointer (ptr, f.FieldType);
-					Delegate finalDel = del;
-					if (f.Name != "glGetError" && f.Name != "glGetShaderInfoLog" && checkErrors) {
-						MethodInfo checkMethod = 
-							typeof(GL).GetMethod("CheckError", 
-								BindingFlags.Public | BindingFlags.Static);
-						var parms = GetDelegateParameterTypes (f.FieldType);
-						var ret = GetDelegateReturnType (f.FieldType);
-						DynamicMethod handler = new DynamicMethod (
-							"",
-							ret,
-							parms
-						);
-						var ilgen = handler.GetILGenerator ();
-						for (int i = 0; i < parms.Length; i++) {
-							ilgen.Emit (OpCodes.Ldarg, i);
-						}
-						ilgen.Emit (OpCodes.Call, del.Method);
-						ilgen.Emit (OpCodes.Ldstr, f.Name);
-						ilgen.Emit (OpCodes.Call, checkMethod);
-						ilgen.Emit (OpCodes.Ret);
-						finalDel = handler.CreateDelegate (f.FieldType);
-					}
-					f.SetValue (null, finalDel);
+					f.SetValue (null, del);
 				}
-			}
-		}
-		private static Type[] GetDelegateParameterTypes(Type d)
-		{
-			if (d.BaseType != typeof(MulticastDelegate))
-				throw new ApplicationException("Not a delegate.");
-
-			MethodInfo invoke = d.GetMethod("Invoke");
-			if (invoke == null)
-				throw new ApplicationException("Not a delegate.");
-
-			ParameterInfo[] parameters = invoke.GetParameters();
-			Type[] typeParameters = new Type[parameters.Length];
-			for (int i = 0; i < parameters.Length; i++)
-			{
-				typeParameters[i] = parameters[i].ParameterType;
-			}
-			return typeParameters;
-		}
-
-		private static Type GetDelegateReturnType(Type d)
-		{
-			if (d.BaseType != typeof(MulticastDelegate))
-				throw new ApplicationException("Not a delegate.");
-
-			MethodInfo invoke = d.GetMethod("Invoke");
-			if (invoke == null)
-				throw new ApplicationException("Not a delegate.");
-
-			return invoke.ReturnType;
-		}
-		enum GLError {
-			GL_NO_ERROR = 0,
-			GL_INVALID_ENUM = 0x500,
-			GL_INVALID_VALUE = 0x501,
-			GL_INVALID_OPERATION = 0x502,
-			GL_OUT_OF_MEMORY = 0x505
-		}
-		public static void CheckError(string method)
-		{
-			GLError error = GLError.GL_NO_ERROR;
-			while ((error = (GLError)glGetError ()) != GLError.GL_NO_ERROR) {
-				throw new Exception (string.Format ("GL Error: {0} - {1}", method, error));
 			}
 		}
 	}
