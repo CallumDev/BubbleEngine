@@ -58,12 +58,16 @@
     <Compile Include="Loaders\TextureLoader.cs" />
     <Compile Include="Loaders\BinaryReaderExtensions.cs" />
     <Compile Include="Threading.cs" />
+    <Compile Include="Input\Keys.cs" />
+    <Compile Include="Input\KeyModifiers.cs" />
+    <Compile Include="Input\MouseButtons.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Interop\" />
     <Folder Include="Math\" />
     <Folder Include="Loaders\" />
+    <Folder Include="Input\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\BubbleDependencies\libSDL2.x64.dylib">
