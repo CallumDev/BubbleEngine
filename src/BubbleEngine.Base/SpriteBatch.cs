@@ -44,7 +44,6 @@ namespace BubbleEngine
 		uint vboID;
 		Vertex2D[] vertices;
 		uint iboID;
-		ushort[] indices;
 		uint vaoID;
 		int matrixLocation;
 		Texture dot; //used for drawing primitives
@@ -55,7 +54,7 @@ namespace BubbleEngine
 		int vertexCount = 0;
 		int indexCount = 0;
 
-		public SpriteBatch (Window win)
+		public unsafe SpriteBatch (Window win)
 		{
 			window = win;
 			var vertexHandle = GL.glCreateShader (GL.GL_VERTEX_SHADER);
@@ -90,7 +89,22 @@ namespace BubbleEngine
 			GL.glGenBuffers (1, out iboID);
 			GL.glBindBuffer (GL.GL_ELEMENT_ARRAY_BUFFER, iboID);
 			int iboSize = MAX_INDICES * 2;
-			GL.glBufferData (GL.GL_ELEMENT_ARRAY_BUFFER, (IntPtr)iboSize, IntPtr.Zero, GL.GL_DYNAMIC_DRAW);
+			//generate indices, they're all gonna be the same
+			int iptr = 0;
+			var indices = new ushort[MAX_INDICES];
+			for (int i = 0; i < MAX_VERTICES; i += 4) {
+				/* Triangle 1 */
+				indices[iptr++] = (ushort)i;
+				indices[iptr++] = (ushort)(i + 1);
+				indices[iptr++] = (ushort)(i + 2);
+				/* Triangle 2 */
+				indices[iptr++] = (ushort)(i + 1);
+				indices[iptr++] = (ushort)(i + 3);
+				indices[iptr++] = (ushort)(i + 2);
+			}
+			fixed(ushort *ptr = indices) {
+				GL.glBufferData (GL.GL_ELEMENT_ARRAY_BUFFER, (IntPtr)iboSize, (IntPtr)ptr, GL.GL_DYNAMIC_DRAW);
+			}
 			GL.glEnableVertexAttribArray (0);
 			GL.glEnableVertexAttribArray (1);
 			GL.glEnableVertexAttribArray (2);
@@ -103,7 +117,7 @@ namespace BubbleEngine
 			dot.SetData (new ByteColor[] { ByteColor.White }, null);
 			//create arrays
 			vertices = new Vertex2D[MAX_VERTICES];
-			indices = new ushort[MAX_INDICES];
+
 		}
 
 		public void Begin()
@@ -178,7 +192,7 @@ namespace BubbleEngine
 			float srcY = (float)source.Y;
 			float srcW = (float)source.Width;
 			float srcH = (float)source.Height;
-			int vcount = vertexCount;
+
 			Vector2 topLeftCoord = new Vector2 (srcX / (float)tex.Width,
 				srcY / (float)tex.Height);
 			Vector2 topRightCoord = new Vector2 ((srcX + srcW) / (float)tex.Width,
@@ -220,14 +234,7 @@ namespace BubbleEngine
 				color
 			);
 
-			/* Triangle 1 */
-			indices[indexCount++] = (ushort)vcount;
-			indices[indexCount++] = (ushort)(vcount + 1);
-			indices[indexCount++] = (ushort)(vcount + 2);
-			/* Triangle 2 */
-			indices[indexCount++] = (ushort)(vcount + 1);
-			indices[indexCount++] = (ushort)(vcount + 3);
-			indices[indexCount++] = (ushort)(vcount + 2);
+			indexCount += 6;
 		}
 
 		void DrawInternal(Texture texture, Rectangle? sourceRect, Rectangle destRect, Color4 color, float dx, float dy, float sin, float cos)
@@ -243,7 +250,6 @@ namespace BubbleEngine
 				source = sourceRect.Value;
 			else
 				source = new Rectangle (0, 0, texture.Width, texture.Height);
-			var vertIndex = (ushort)vertexCount;
 			float x = (float)destRect.X;
 			float y = (float)destRect.Y;
 			float w = (float)destRect.Width;
@@ -280,15 +286,8 @@ namespace BubbleEngine
 					new Vector2 ((source.X + source.Width) / (float)texture.Width,
 						(source.Y + source.Height) / (float)texture.Height),
 					color);
-			//Triangle 1
-			indices [indexCount++] = vertIndex;
-			indices [indexCount++] = (ushort)(vertIndex + 1);
-			indices [indexCount++] = (ushort)(vertIndex + 2);
-			//Triangle 2
-			indices [indexCount++] = (ushort)(vertIndex + 1);
-			indices [indexCount++] = (ushort)(vertIndex + 3);
-			indices [indexCount++] = (ushort)(vertIndex + 2);
-
+			
+			indexCount += 6;
 		}
 
 		unsafe void Flush()
@@ -307,9 +306,6 @@ namespace BubbleEngine
 			GL.glBindBuffer (GL.GL_ELEMENT_ARRAY_BUFFER, iboID);
 			fixed(Vertex2D *ptr = vertices) {
 				GL.glBufferSubData (GL.GL_ARRAY_BUFFER, IntPtr.Zero, (IntPtr)(vertexCount * Vertex2D.Size), (IntPtr)ptr);
-			}
-			fixed (ushort *ptr = indices) {
-				GL.glBufferSubData (GL.GL_ELEMENT_ARRAY_BUFFER, IntPtr.Zero, (IntPtr)(indexCount * 2), (IntPtr)ptr);
 			}
 			GL.glDrawElements (GL.GL_TRIANGLES, indexCount, GL.GL_UNSIGNED_SHORT, IntPtr.Zero);
 			GL.glBindVertexArray (0);

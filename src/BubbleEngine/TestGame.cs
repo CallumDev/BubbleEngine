@@ -18,9 +18,12 @@ namespace BubbleEngine
 
 		protected override void Draw (GameTime gameTime)
 		{
-			//Test: 400x300 red rectangle in top left corner
+			//Test: red, blue, green + white rectangles
 			spriteBatch.Begin ();
 			spriteBatch.FillRectangle (new Rectangle (0, 0, 400, 300), Color4.Red);
+			spriteBatch.FillRectangle (new Rectangle (400, 0, 400, 300), Color4.Blue);
+			spriteBatch.FillRectangle (new Rectangle (0, 300, 400, 300), Color4.Green);
+			spriteBatch.FillRectangle (new Rectangle (400, 300, 400, 300), Color4.White);
 			spriteBatch.End ();
 		}
 	}

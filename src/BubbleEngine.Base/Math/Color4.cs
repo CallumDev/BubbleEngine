@@ -16,7 +16,7 @@ namespace BubbleEngine
 		public static readonly Color4 Black = new Color4 (0, 0, 0, 1);
 		public static readonly Color4 Red = new Color4 (1, 0, 0, 1);
 		public static readonly Color4 Green = new Color4(0,1,0,1);
-		public static readonly Color4 Blue = new Color4(0,0,1,0);
+		public static readonly Color4 Blue = new Color4(0,0,1,1);
 
 		//instance
 		public float R;
