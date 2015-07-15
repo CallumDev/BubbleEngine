@@ -163,16 +163,7 @@ namespace BubbleEngine
 
 		public static void Load()
 		{
-			var t = typeof (GL);
-			foreach (var f in t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)) {
-
-				if (f.FieldType.BaseType == typeof(MulticastDelegate) ||
-					f.FieldType.BaseType == typeof(Delegate)) {
-					var ptr = SDL2.SDL_GL_GetProcAddress (f.Name);
-					var del = Marshal.GetDelegateForFunctionPointer (ptr, f.FieldType);
-					f.SetValue (null, del);
-				}
-			}
+			InteropHelper.LoadFunctions (typeof(GL), (x) => SDL2.SDL_GL_GetProcAddress(x));
 		}
 	}
 }

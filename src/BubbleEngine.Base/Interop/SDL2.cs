@@ -237,17 +237,7 @@ namespace BubbleEngine
 				}
 			}
 			var sdl2_ptr = loader.LoadLibrary (lib);
-			var t = typeof (SDL2);
-			Console.WriteLine ("SDL2: {0}", lib);
-			foreach (var f in t.GetFields()) {
-				if (f.FieldType.BaseType == typeof(MulticastDelegate) ||
-					f.FieldType.BaseType == typeof(Delegate)) {
-					Console.WriteLine (f.Name);
-					var ptr = loader.GetProcAddress (sdl2_ptr, f.Name);
-					var del = Marshal.GetDelegateForFunctionPointer (ptr, f.FieldType);
-					f.SetValue (null, del);
-				}
-			}
+			InteropHelper.LoadFunctions (typeof(SDL2), (x) => loader.GetProcAddress (sdl2_ptr, x));
 		}
 	}
 }
