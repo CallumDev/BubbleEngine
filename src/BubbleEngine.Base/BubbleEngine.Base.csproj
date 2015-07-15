@@ -62,6 +62,7 @@
     <Compile Include="Input\KeyModifiers.cs" />
     <Compile Include="Input\MouseButtons.cs" />
     <Compile Include="Interop\InteropHelper.cs" />
+    <Compile Include="Interop\FT.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

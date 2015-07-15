@@ -155,8 +155,9 @@ namespace BubbleEngine
 				SDL2.SDL_Quit ();
 				return;
 			}
-			//Load gl pointers
+			//Load libraries
 			GL.Load();
+			FT.Load ();
 			//Base gl state
 			GL.glEnable (GL.GL_BLEND);
 			GL.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
