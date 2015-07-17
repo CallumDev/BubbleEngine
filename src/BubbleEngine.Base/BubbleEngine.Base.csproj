@@ -88,5 +88,21 @@
       <Link>SDL2.x86.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\BubbleDependencies\freetype6.x64.dll">
+      <Link>freetype6.x64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\freetype6.x86.dll">
+      <Link>freetype6.x86.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\libfreetype.6.x64.dylib">
+      <Link>libfreetype.6.x64.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\libfreetype.6.x86.dylib">
+      <Link>libfreetype.6.x86.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
