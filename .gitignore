@@ -7,6 +7,10 @@ obj/
 # Visual Studio
 *.suo
 
+# Sublime Text
+*.sublime-project
+*.sublime-workspace 
+
 # MonoDevelop
 *.userprefs
 
