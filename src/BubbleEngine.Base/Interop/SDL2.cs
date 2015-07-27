@@ -35,6 +35,9 @@ namespace BubbleEngine
 {
 	static partial class SDL2
 	{
+		//The fields do get assigned to, just through reflection.
+		#pragma warning disable 0649
+
 		#region Init
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int Init(uint flags);

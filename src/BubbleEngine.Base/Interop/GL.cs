@@ -13,6 +13,9 @@ namespace BubbleEngine
 {
 	static class GL
 	{
+		//The fields do get assigned to, just through reflection.
+		#pragma warning disable 0649
+
 		public delegate void ClearColor(float r, float g, float b, float a);
 		public static ClearColor glClearColor;
 

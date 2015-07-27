@@ -4,6 +4,9 @@ namespace BubbleEngine
 {
 	static class FT
 	{
+		//The fields do get assigned to, just through reflection.
+		#pragma warning disable 0649
+
 		public static bool Loaded = false;
 
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]

@@ -516,6 +516,9 @@ namespace BubbleEngine
 		public const int SDL_BUTTON_X1       = 4;
 		public const int  SDL_BUTTON_X2       = 5;
 
+		//The fields do get assigned to, just through reflection.
+		#pragma warning disable 0649
+
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int PollEvent(out SDL_Event _event);
 		public static PollEvent SDL_PollEvent;
