@@ -40,14 +40,12 @@ namespace BubbleEngine
 
 		//resources
 		Window window;
-		uint programID;
 		uint vboID;
 		Vertex2D[] vertices;
 		uint iboID;
 		uint vaoID;
-		int matrixLocation;
 		Texture dot; //used for drawing primitives
-
+		Shader shader;
 		//state
 		bool active = false;
 		int currentTexture = -1;
@@ -57,26 +55,9 @@ namespace BubbleEngine
 		public unsafe SpriteBatch (Window win)
 		{
 			window = win;
-			var vertexHandle = GL.glCreateShader (GL.GL_VERTEX_SHADER);
-			var fragmentHandle = GL.glCreateShader (GL.GL_FRAGMENT_SHADER);
-			GL.ShaderSource (vertexHandle, vertex_source);
-			GL.ShaderSource (fragmentHandle, fragment_source);
-			GL.glCompileShader (vertexHandle);
-			Console.WriteLine (GL.GetShaderInfoLog (vertexHandle));
-			GL.glCompileShader (fragmentHandle);
-			Console.WriteLine (GL.GetShaderInfoLog (fragmentHandle));
-			programID = GL.glCreateProgram ();
-			GL.glAttachShader (programID, vertexHandle);
-			GL.glAttachShader (programID, fragmentHandle);
-			GL.glBindAttribLocation (programID, 0, "position");
-			GL.glBindAttribLocation (programID, 1, "texcoord");
-			GL.glBindAttribLocation (programID, 2, "color");
-			GL.glLinkProgram (programID);
-			Console.WriteLine (GL.GetProgramInfoLog (programID));
-			GL.glUseProgram (programID);
-			matrixLocation = GL.glGetUniformLocation (programID, "modelviewproj");
-			int textureLocation = GL.glGetUniformLocation (programID, "tex");
-			GL.glUniform1i (textureLocation, 0);
+			//Create shader and set texture unit to 0
+			shader = new Shader (vertex_source, fragment_source);
+			shader.SetInteger ("tex", 0);
 			//create vbo
 			GL.glGenBuffers (1, out vboID);
 			GL.glBindBuffer (GL.GL_ARRAY_BUFFER, vboID);
@@ -294,11 +275,9 @@ namespace BubbleEngine
 		{
 			if (indexCount == 0)
 				return;
-			GL.glUseProgram (programID);
+			shader.UseProgram ();
 			var mat = Matrix4.CreateOrthographicOffCenter (0, window.Width, window.Height, 0, 0, 1);
-			var handle = GCHandle.Alloc (mat, GCHandleType.Pinned);
-			GL.glUniformMatrix4fv (matrixLocation, 1, false, handle.AddrOfPinnedObject ());
-			handle.Free ();
+			shader.SetMatrix ("modelviewproj", ref mat);
 			GL.glViewport (0, 0, window.Width, window.Height);
 			GL.glBindVertexArray (vaoID);
 			GL.glBindTexture (GL.GL_TEXTURE_2D, (uint)currentTexture);
@@ -312,7 +291,6 @@ namespace BubbleEngine
 			vertexCount = 0;
 			indexCount = 0;
 		}
-
 
 	}
 }

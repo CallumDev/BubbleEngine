@@ -65,6 +65,7 @@
     <Compile Include="Interop\FT.cs" />
     <Compile Include="FontContext.cs" />
     <Compile Include="Interop\FTMath.cs" />
+    <Compile Include="Shader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
