@@ -63,6 +63,8 @@
     <Compile Include="Input\MouseButtons.cs" />
     <Compile Include="Interop\InteropHelper.cs" />
     <Compile Include="Interop\FT.cs" />
+    <Compile Include="FontContext.cs" />
+    <Compile Include="Interop\FTMath.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -4,9 +4,15 @@ namespace BubbleEngine
 {
 	static class FT
 	{
+		public static bool Loaded = false;
+
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int Init_FreeType (out IntPtr alibrary);
 		public static Init_FreeType FT_Init_FreeType;
+
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate int Done_FreeType (IntPtr alibrary);
+		public static Done_FreeType FT_Done_FreeType;
 
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate int New_Face (IntPtr library, string filepathname, int face_index, out IntPtr aface);
@@ -63,6 +69,7 @@ namespace BubbleEngine
 				break;
 			}
 			InteropHelper.LoadFunctions (typeof(FT), (x) => loader.GetProcAddress (library, x));
+			Loaded = true;
 		}
 	}
 }

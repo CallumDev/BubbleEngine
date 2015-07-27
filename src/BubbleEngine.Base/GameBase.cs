@@ -11,11 +11,13 @@ namespace BubbleEngine
 	public class GameBase
 	{
 		protected GraphicsSettings GraphicsSettings { get; private set; }
+		protected FontContext FontContext { get; private set; }
 		protected Window Window { get; private set; }
 		bool running = false;
 		public GameBase ()
 		{
 			GraphicsSettings = new GraphicsSettings ();
+			FontContext = new FontContext ();
 			Window = new Window ();
 		}
 
