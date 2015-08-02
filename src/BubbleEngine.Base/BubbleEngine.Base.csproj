@@ -66,6 +66,8 @@
     <Compile Include="FontContext.cs" />
     <Compile Include="Interop\FTMath.cs" />
     <Compile Include="Shader.cs" />
+    <Compile Include="Font.cs" />
+    <Compile Include="Utilities\CodepointIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -73,6 +75,7 @@
     <Folder Include="Math\" />
     <Folder Include="Loaders\" />
     <Folder Include="Input\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\BubbleDependencies\libSDL2.x64.dylib">
