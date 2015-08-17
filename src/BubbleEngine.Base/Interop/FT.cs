@@ -10,6 +10,7 @@ namespace BubbleEngine
 		//define FT_LOAD_TARGET_NORMAL = FT_LOAD_TARGET_(FT_RENDER_MODE_NORMAL)
 		public const int FT_LOAD_TARGET_NORMAL = (FT_RENDER_MODE_NORMAL & 15) << 16;
 
+		public const long FT_FACE_FLAG_KERNING = ( 1L <<  6 );
 		//The fields do get assigned to, just through reflection.
 		#pragma warning disable 0649
 
@@ -44,7 +45,8 @@ namespace BubbleEngine
 		public static Render_Glyph FT_Render_Glyph;
 
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		public delegate int FT_Get_Kerning(IntPtr face, uint left_glyph, uint right_glyph, uint kern_mode, out FT_Vector akerning);
+		public delegate int Get_Kerning(IntPtr face, uint left_glyph, uint right_glyph, uint kern_mode, out FT_Vector akerning);
+		public static Get_Kerning FT_Get_Kerning;
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FT_Vector

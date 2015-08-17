@@ -21,12 +21,13 @@ namespace BubbleEngine
 			public int HorizontalAdvance;
 			public int XOffset;
 			public int YOffset;
+			public bool Kerning;
 			//Big constructor!
 			public GlyphInfo(
 				Texture t, Rectangle r, int advanceX, 
 				int advanceY, int horizontalAdvance, 
 				int xoffset, int yoffset,  uint index, 
-				IntPtr face
+				IntPtr face, bool kerning
 			)
 			{
 				Texture = t;
@@ -39,15 +40,17 @@ namespace BubbleEngine
 				YOffset = yoffset;
 				CharIndex = index;
 				Face = face;
+				Kerning = kerning;
 			}
 			//Little constructor for space + tab
-			public GlyphInfo(int advanceX, int advanceY, uint index, IntPtr face)
+			public GlyphInfo(int advanceX, int advanceY, uint index, IntPtr face, bool kerning)
 			{
 				Render = false;
 				AdvanceX = advanceX;
 				AdvanceY = advanceY;
 				CharIndex = index;
 				Face = face;
+				Kerning = kerning;
 			}
 		}
 
@@ -97,14 +100,14 @@ namespace BubbleEngine
 			}
 
 		}
-		//TODO: Implement Kerning
+
 		public Point MeasureString(string text)
 		{
 			if (text == "") //Skip empty strings
 				return new Point (0, 0);
 			
 			var iter = new CodepointIterator (text);
-			int penX = 0, penY = 0;
+			float penX = 0, penY = 0;
 
 			while (iter.Iterate ()) {
 				uint c = iter.Codepoint;
@@ -121,8 +124,17 @@ namespace BubbleEngine
 					penX += glyph.AdvanceX;
 					penY += glyph.AdvanceY;
 				}
+				if (glyph.Kerning && iter.Index < iter.Count - 1) {
+					var g2 = GetGlyph (iter.PeekNext ());
+					if (g2.Face == glyph.Face) {
+						FT.FT_Vector vec;
+						FT.FT_Get_Kerning (glyph.Face, glyph.CharIndex, g2.CharIndex, 2, out vec);
+						var krn = FTMath.From26Dot6 (vec.x);
+						penX += krn;
+					}
+				}
 			}
-			return new Point (penX, penY);
+			return new Point ((int)penX, (int)penY);
 		}
 
 		public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color4 color)
@@ -136,7 +148,7 @@ namespace BubbleEngine
 				return;
 			
 			var iter = new CodepointIterator (text);
-			int penX = x, penY = y;
+			float penX = x, penY = y;
 
 			while (iter.Iterate ()) {
 				uint c = iter.Codepoint;
@@ -150,8 +162,8 @@ namespace BubbleEngine
 						glyph.Texture,
 						glyph.Rectangle,
 						new Rectangle (
-							penX + glyph.XOffset,
-							penY + (LineHeight - glyph.YOffset),
+							(int)penX + glyph.XOffset,
+							(int)penY + (LineHeight - glyph.YOffset),
 							glyph.Rectangle.Width,
 							glyph.Rectangle.Height
 						),
@@ -162,6 +174,15 @@ namespace BubbleEngine
 				} else {
 					penX += glyph.AdvanceX;
 					penY += glyph.AdvanceY;
+				}
+				if (glyph.Kerning && iter.Index < iter.Count - 1) {
+					var g2 = GetGlyph (iter.PeekNext ());
+					if (g2.Face == glyph.Face) {
+						FT.FT_Vector vec;
+						FT.FT_Get_Kerning (glyph.Face, glyph.CharIndex, g2.CharIndex, 2, out vec);
+						var krn = FTMath.From26Dot6 (vec.x);
+						penX += krn;
+					}
 				}
 			}
 		}
@@ -177,7 +198,7 @@ namespace BubbleEngine
 		{
 			if (codepoint == (uint)'\t') {
 				var spaceGlyph = GetGlyph ((uint)' ');
-				glyphs.Add (codepoint, new GlyphInfo (spaceGlyph.AdvanceX * 4, spaceGlyph.AdvanceY, spaceGlyph.CharIndex, spaceGlyph.Face));
+				glyphs.Add (codepoint, new GlyphInfo (spaceGlyph.AdvanceX * 4, spaceGlyph.AdvanceY, spaceGlyph.CharIndex, spaceGlyph.Face, spaceGlyph.Kerning));
 				return;
 			}
 			IntPtr face;
@@ -191,6 +212,8 @@ namespace BubbleEngine
 			}
 			FT.FT_Load_Glyph (face, index, FT.FT_LOAD_DEFAULT | FT.FT_LOAD_TARGET_NORMAL);
 			var faceRec = Marshal.PtrToStructure<FT.FaceRec> (face);
+			//not exactly the right spot, but this is the only place we access the members of the face
+			bool kerning = (((long)faceRec.face_flags) & FT.FT_FACE_FLAG_KERNING) == FT.FT_FACE_FLAG_KERNING;
 			FT.FT_Render_Glyph (faceRec.glyph, FT.FT_RENDER_MODE_NORMAL);
 			var glyphRec = Marshal.PtrToStructure<FT.GlyphSlotRec> (faceRec.glyph);
 			if (glyphRec.bitmap.width == 0 || glyphRec.bitmap.rows == 0) {
@@ -199,7 +222,8 @@ namespace BubbleEngine
 						(int)Math.Ceiling(FTMath.From26Dot6 (glyphRec.advance.x)),
 						(int)Math.Ceiling(FTMath.From26Dot6 (glyphRec.advance.y)),
 						index,
-						face
+						face,
+						kerning
 					)
 				);
 			} else {
@@ -240,7 +264,9 @@ namespace BubbleEngine
 						glyphRec.bitmap_left,
 						glyphRec.bitmap_top,
 						index,
-						face)
+						face,
+						kerning
+					)
 				);
 			}
 		}

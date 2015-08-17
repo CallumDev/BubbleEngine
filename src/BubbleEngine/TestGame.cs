@@ -16,7 +16,7 @@ namespace BubbleEngine
 			spriteBatch = new SpriteBatch (Window);
 			//load fonts
 			FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
-			font = new Font (FontContext, "../../TestAssets/OpenSans-Regular.ttf", 12);
+			font = new Font (FontContext, "../../TestAssets/OpenSans-Regular.ttf", 48);
 		}
 
 		protected override void Draw (GameTime gameTime)
