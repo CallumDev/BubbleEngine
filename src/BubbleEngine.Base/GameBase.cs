@@ -41,13 +41,11 @@ namespace BubbleEngine
 				var t = new GameTime(TimeSpan.FromSeconds(elapsed), timer.Elapsed);
 
 				if (running) {
-					//TODO: Update
 					Update(t);
 				}
 				if (running) {
 					GL.glClearColor (0f, 0f, 0f, 1f);
 					GL.glClear (GL.GL_COLOR_BUFFER_BIT);
-					//TODO: Draw
 					Draw(t);
 				}
 				//Time
