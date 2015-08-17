@@ -68,6 +68,7 @@
     <Compile Include="Shader.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="Utilities\CodepointIterator.cs" />
+    <Compile Include="Math\Point.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

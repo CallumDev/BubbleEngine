@@ -59,6 +59,13 @@ namespace BubbleEngine
 		int currentX = 0;
 		int currentY = 0;
 		int lineHeight;
+
+		public int LineHeight {
+			get {
+				return lineHeight;
+			}
+		}
+
 		public Font (FontContext ctx, string filename, float size)
 		{
 			context = ctx;
@@ -90,6 +97,75 @@ namespace BubbleEngine
 			}
 
 		}
+		//TODO: Implement Kerning
+		public Point MeasureString(string text)
+		{
+			if (text == "") //Skip empty strings
+				return new Point (0, 0);
+			
+			var iter = new CodepointIterator (text);
+			int penX = 0, penY = 0;
+
+			while (iter.Iterate ()) {
+				uint c = iter.Codepoint;
+				if (c == (uint)'\n') {
+					penY += lineHeight;
+					penX = 0;
+					continue;
+				}
+				var glyph = GetGlyph (c);
+				if (glyph.Render) {
+					penX += glyph.HorizontalAdvance;
+					penY += glyph.AdvanceY;
+				} else {
+					penX += glyph.AdvanceX;
+					penY += glyph.AdvanceY;
+				}
+			}
+			return new Point (penX, penY);
+		}
+
+		public void DrawString(SpriteBatch spriteBatch, string text, Vector2 position, Color4 color)
+		{
+			DrawString (spriteBatch, text, (int)position.X, (int)position.Y, color);
+		}
+
+		public void DrawString(SpriteBatch spriteBatch, string text, int x, int y, Color4 color)
+		{
+			if (text == "") //Skip empty strings
+				return;
+			
+			var iter = new CodepointIterator (text);
+			int penX = x, penY = y;
+
+			while (iter.Iterate ()) {
+				uint c = iter.Codepoint;
+				if (c == (uint)'\n') {
+					penY += lineHeight;
+					penX = x;
+				}
+				var glyph = GetGlyph (c);
+				if (glyph.Render) {
+					spriteBatch.Draw (
+						glyph.Texture,
+						glyph.Rectangle,
+						new Rectangle (
+							penX + glyph.XOffset,
+							penY + (LineHeight - glyph.YOffset),
+							glyph.Rectangle.Width,
+							glyph.Rectangle.Height
+						),
+						color
+					);
+					penX += glyph.HorizontalAdvance;
+					penY += glyph.AdvanceY;
+				} else {
+					penX += glyph.AdvanceX;
+					penY += glyph.AdvanceY;
+				}
+			}
+		}
+
 		GlyphInfo GetGlyph(uint codepoint)
 		{
 			if (!glyphs.ContainsKey (codepoint))
@@ -131,7 +207,7 @@ namespace BubbleEngine
 				if (glyphRec.bitmap.pixel_mode == 2) {
 					byte* data = (byte*)glyphRec.bitmap.buffer;
 					for (int i = 0; i < glyphRec.bitmap.width * glyphRec.bitmap.rows; i++) {
-						//TODO: 4 bytes used for 1 byte of alpha? investigate compression with GL_RED and shader.
+						//TODO: 4 bytes used for 1 byte of alpha data? investigate compression with GL_RED and shader.
 						colors [i] = new ByteColor (255, 255, 255, data [i]);
 					}
 				} else {
@@ -154,7 +230,18 @@ namespace BubbleEngine
 				var tex = pages [pages.Count - 1];
 				tex.SetData (colors, rect);
 				currentX += glyphRec.bitmap.width;
-
+				glyphs.Add (codepoint, 
+					new GlyphInfo (
+						tex, 
+						rect, 
+						(int)Math.Ceiling (FTMath.From26Dot6 (glyphRec.advance.x)),
+						(int)Math.Ceiling (FTMath.From26Dot6 (glyphRec.advance.y)),
+						(int)Math.Ceiling (FTMath.From26Dot6 (glyphRec.metrics.horiAdvance)),
+						glyphRec.bitmap_left,
+						glyphRec.bitmap_top,
+						index,
+						face)
+				);
 			}
 		}
 		bool GetFace(uint codepoint, out uint index, out IntPtr face)
