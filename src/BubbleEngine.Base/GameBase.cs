@@ -13,6 +13,8 @@ namespace BubbleEngine
 		protected GraphicsSettings GraphicsSettings { get; private set; }
 		protected FontContext FontContext { get; private set; }
 		protected Window Window { get; private set; }
+		protected Mouse Mouse { get; private set; }
+
 		bool running = false;
 		public GameBase ()
 		{
@@ -88,6 +90,21 @@ namespace BubbleEngine
 		{
 
 		}
+		//Convert from SDL2 button to Bubble button
+		MouseButtons GetMouseButton(byte b)
+		{
+			if (b == SDL2.SDL_BUTTON_LEFT)
+				return MouseButtons.Left;
+			if (b == SDL2.SDL_BUTTON_MIDDLE)
+				return MouseButtons.Middle;
+			if (b == SDL2.SDL_BUTTON_RIGHT)
+				return MouseButtons.Right;
+			if (b == SDL2.SDL_BUTTON_X1)
+				return MouseButtons.X1;
+			if (b == SDL2.SDL_BUTTON_X2)
+				return MouseButtons.X2;
+			throw new Exception ("SDL2 gave undefined mouse button"); //should never happen
+		}
 		void ProcessEvents()
 		{
 			SDL2.SDL_Event e;
@@ -95,6 +112,29 @@ namespace BubbleEngine
 				if (e.type == SDL2.SDL_EventType.SDL_QUIT) {
 					//TODO: Allow cancel of quit event
 					running = false;
+				}
+				//mouse events
+				if (e.type == SDL2.SDL_EventType.SDL_MOUSEMOTION) {
+					Mouse.X = e.motion.x;
+					Mouse.Y = e.motion.y;
+					Mouse.OnMouseMove ();
+				}
+				if (e.type == SDL2.SDL_EventType.SDL_MOUSEBUTTONDOWN) {
+					Mouse.X = e.button.x;
+					Mouse.Y = e.button.y;
+					var btn = GetMouseButton (e.button.button);
+					Mouse.Buttons |= btn;
+					Mouse.OnMouseDown (btn);
+				}
+				if (e.type == SDL2.SDL_EventType.SDL_MOUSEBUTTONUP) {
+					Mouse.X = e.button.x;
+					Mouse.Y = e.button.y;
+					var btn = GetMouseButton (e.button.button);
+					Mouse.Buttons &= ~btn;
+					Mouse.OnMouseUp (btn);
+				}
+				if (e.type == SDL2.SDL_EventType.SDL_MOUSEWHEEL) {
+					Mouse.OnMouseWheel (e.wheel.y);
 				}
 			}
 		}
@@ -132,7 +172,7 @@ namespace BubbleEngine
 			);
 			Window.Width = GraphicsSettings.RequestedWidth;
 			Window.Height = GraphicsSettings.RequestedHeight;
-
+			Mouse = new Mouse ();
 			if (sdlWin == IntPtr.Zero) {
 				SDL2.SDL_ShowSimpleMessageBox (
 					SDL2.SDL_MESSAGEBOX_ERROR,

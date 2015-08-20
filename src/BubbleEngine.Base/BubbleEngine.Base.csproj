@@ -69,6 +69,8 @@
     <Compile Include="Font.cs" />
     <Compile Include="Utilities\CodepointIterator.cs" />
     <Compile Include="Math\Point.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
