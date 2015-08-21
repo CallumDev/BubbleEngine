@@ -6,6 +6,9 @@
 #endregion
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
+
 namespace BubbleEngine
 {
 	public class GameBase
@@ -14,6 +17,7 @@ namespace BubbleEngine
 		protected FontContext FontContext { get; private set; }
 		protected Window Window { get; private set; }
 		protected Mouse Mouse { get; private set; }
+		protected Keyboard Keyboard { get; private set; }
 
 		bool running = false;
 		public GameBase ()
@@ -105,6 +109,18 @@ namespace BubbleEngine
 				return MouseButtons.X2;
 			throw new Exception ("SDL2 gave undefined mouse button"); //should never happen
 		}
+
+		unsafe string GetEventText(ref SDL2.SDL_Event e)
+		{
+			byte[] rawBytes = new byte[SDL2.SDL_TEXTINPUTEVENT_TEXT_SIZE];
+			fixed (byte* txtPtr = e.text.text) {
+				Marshal.Copy ((IntPtr)txtPtr, rawBytes, 0, SDL2.SDL_TEXTINPUTEVENT_TEXT_SIZE);
+			}
+			int nullIndex = Array.IndexOf (rawBytes, (byte)0);
+			string text = Encoding.UTF8.GetString (rawBytes, 0, nullIndex);
+			return text;
+		}
+
 		void ProcessEvents()
 		{
 			SDL2.SDL_Event e;
@@ -135,6 +151,16 @@ namespace BubbleEngine
 				}
 				if (e.type == SDL2.SDL_EventType.SDL_MOUSEWHEEL) {
 					Mouse.OnMouseWheel (e.wheel.y);
+				}
+				//keyboard events
+				if (e.type == SDL2.SDL_EventType.SDL_TEXTINPUT) {
+					Keyboard.OnTextInput (GetEventText (ref e));
+				}
+				if (e.type == SDL2.SDL_EventType.SDL_KEYDOWN) {
+					Keyboard.OnKeyDown ((Keys)e.key.keysym.sym, (KeyModifiers)e.key.keysym.mod);
+				}
+				if (e.type == SDL2.SDL_EventType.SDL_KEYUP) {
+					Keyboard.OnKeyUp ((Keys)e.key.keysym.sym, (KeyModifiers)e.key.keysym.mod);
 				}
 			}
 		}
@@ -173,6 +199,7 @@ namespace BubbleEngine
 			Window.Width = GraphicsSettings.RequestedWidth;
 			Window.Height = GraphicsSettings.RequestedHeight;
 			Mouse = new Mouse ();
+			Keyboard = new Keyboard ();
 			if (sdlWin == IntPtr.Zero) {
 				SDL2.SDL_ShowSimpleMessageBox (
 					SDL2.SDL_MESSAGEBOX_ERROR,

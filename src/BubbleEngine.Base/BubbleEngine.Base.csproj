@@ -71,6 +71,8 @@
     <Compile Include="Math\Point.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\KeyEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
