@@ -34,18 +34,33 @@ namespace BubbleEngine
 			Load ();
 			//Game loop
 			running = true;
+			#if DEBUGMAC
+			double last = SDL2.SDL_GetTicks() / 1000;
+
+			#else
 			var timer = new Stopwatch();
 			timer.Start ();
 			double last = 0.0;
+			#endif
 			double elapsed = 0.0;
+			/*
+			 * 	DEBUGMAC Define:
+			 * 	Use SDL2_GetTicks (less accurate) instead of Stopwatch
+			 *  Xamarin Studio Debugger crashes on Mac with Stopwatch
+			 *  DEBUGMAC not required for other platforms
+			 */
 			while (running) {
 				//SDL2 events
 				ProcessEvents ();
 				//Run code for UI thread
 				Threading.Update();
 				//Run game code
+				#if DEBUGMAC
+				double current = SDL2.SDL_GetTicks() / 1000;
+				var t = new GameTime(TimeSpan.FromSeconds(elapsed), TimeSpan.FromSeconds(current));
+				#else
 				var t = new GameTime(TimeSpan.FromSeconds(elapsed), timer.Elapsed);
-
+				#endif
 				if (running) {
 					Update(t);
 				}
@@ -55,8 +70,13 @@ namespace BubbleEngine
 					Draw(t);
 				}
 				//Time
+				#if DEBUGMAC
+				elapsed = current - last;
+				last = current;
+				#else
 				elapsed = timer.Elapsed.TotalSeconds - last;
 				last = timer.Elapsed.TotalSeconds;
+				#endif
 				if (elapsed < 0) {
 					elapsed = 0;
 					//apparently this can happen?
@@ -65,7 +85,9 @@ namespace BubbleEngine
 				SDL2.SDL_GL_SwapWindow (Window.Handle);
 				System.Threading.Thread.Sleep (0);
 			}
+			#if !DEBUGMAC
 			timer.Stop ();
+			#endif
 			SDL2.SDL_Quit ();
 		}
 		bool fullscreen;

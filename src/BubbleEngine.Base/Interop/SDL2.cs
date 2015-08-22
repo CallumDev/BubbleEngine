@@ -216,6 +216,13 @@ namespace BubbleEngine
 		public static GL_SwapWindow SDL_GL_SwapWindow;
 		#endregion
 
+		#region Get Ticks (Mac Debug)
+		#if DEBUGMAC
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate uint GetTicks();
+		public static GetTicks SDL_GetTicks;
+		#endif
+		#endregion
 		/// <summary>
 		/// Load all delegate functions
 		/// </summary>
