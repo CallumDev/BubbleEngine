@@ -1,22 +1,39 @@
 ﻿using System;
-
+using System.IO;
+using System.Reflection;
+using NLua;
 namespace BubbleEngine
 {
 	public class TestGame : GameBase
 	{
 		SpriteBatch spriteBatch;
 		Font font;
+		Lua state;
+		LuaTable gameTable;
+
 		public TestGame ()
 		{
 			Window.Title = "Bubble Test";
 		}
-
+			
 		protected override void Load ()
 		{
 			spriteBatch = new SpriteBatch (Window);
 			//load fonts
 			FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
 			font = new Font (FontContext, "../../TestAssets/OpenSans-Regular.ttf", 16);
+			state = new Lua ();
+			state.RegisterFunction (
+				"println", 
+				typeof(Console).GetMethod (
+					"WriteLine", 
+					new Type[] { typeof(string) }
+				)
+			);
+			state.DoString (File.ReadAllText ("test.lua"));
+			gameTable = (LuaTable)state ["game"];
+			var ld = (LuaFunction)gameTable ["load"];
+			ld.Call ();
 		}
 
 		protected override void Draw (GameTime gameTime)
