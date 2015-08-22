@@ -1,3 +1,6 @@
 [submodule "BubbleDependencies"]
 	path = BubbleDependencies
 	url = https://github.com/CallumDev/BubbleDependencies.git
+[submodule "extern/NLua"]
+	path = extern/NLua
+	url = https://github.com/NLua/NLua.git
