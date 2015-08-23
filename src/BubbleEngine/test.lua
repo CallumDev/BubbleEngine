@@ -19,5 +19,5 @@ function game.draw(t)
 end
 
 function game.update(t)
-	print("elapsed: " .. t.elapsed .. ", total: " .. t.total)
+	--print("elapsed: " .. t.elapsed .. ", total: " .. t.total)
 end
