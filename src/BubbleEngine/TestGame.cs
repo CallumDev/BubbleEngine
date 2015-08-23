@@ -7,13 +7,13 @@ namespace BubbleEngine
 	public class TestGame : GameBase
 	{
 		SpriteBatch spriteBatch;
-		Font font;
 		Lua state;
 		LuaTable gameTable;
-
+		LuaFunction drawFunction;
+		LuaFunction updateFunction;
 		public TestGame ()
 		{
-			Window.Title = "Bubble Test";
+			Window.Title = "Bubble Engine";
 		}
 			
 		protected override void Load ()
@@ -21,8 +21,9 @@ namespace BubbleEngine
 			spriteBatch = new SpriteBatch (Window);
 			//load fonts
 			FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
-			font = new Font (FontContext, "../../TestAssets/OpenSans-Regular.ttf", 16);
 			state = new Lua ();
+			state.LoadCLRPackage ();
+			//create lua state
 			state.RegisterFunction (
 				"println", 
 				typeof(Console).GetMethod (
@@ -30,22 +31,29 @@ namespace BubbleEngine
 					new Type[] { typeof(string) }
 				)
 			);
+			state ["fonts"] = new LuaAPI.Fonts (FontContext);
+			state ["graphics"] = new LuaAPI.Graphics (spriteBatch);
+			state ["window"] = new LuaAPI.LWindow (Window);
+
+			//run init script
+			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
+			//run
 			state.DoString (File.ReadAllText ("test.lua"));
 			gameTable = (LuaTable)state ["game"];
 			var ld = (LuaFunction)gameTable ["load"];
 			ld.Call ();
+			updateFunction = (LuaFunction)gameTable ["update"];
+			drawFunction = (LuaFunction)gameTable ["draw"];
 		}
-
+		protected override void Update (GameTime gameTime)
+		{
+			updateFunction.Call (gameTime);
+		}
 		protected override void Draw (GameTime gameTime)
 		{
 			//Test: red, blue, green + white rectangles
 			spriteBatch.Begin ();
-			spriteBatch.FillRectangle (new Rectangle (0, 0, 400, 300), Color4.Red);
-			spriteBatch.FillRectangle (new Rectangle (400, 0, 400, 300), Color4.Blue);
-			spriteBatch.FillRectangle (new Rectangle (0, 300, 400, 300), Color4.Green);
-			spriteBatch.FillRectangle (new Rectangle (400, 300, 400, 300), Color4.White);
-			//test text rendering and mouse
-			font.DrawString(spriteBatch, string.Format("Mouse: {0},{1} ({2})", Mouse.X, Mouse.Y, Mouse.Buttons), 10, 10, Color4.White);
+			drawFunction.Call (gameTime);
 			spriteBatch.End ();
 		}
 	}

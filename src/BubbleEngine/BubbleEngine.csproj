@@ -39,13 +39,17 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="NLua">
-      <HintPath>..\..\extern\NLua\Run\Release\net45\NLua.dll</HintPath>
+      <HintPath>..\..\extern\NLua\Run\Debug\net45\NLua.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestGame.cs" />
+    <Compile Include="LuaAPI\Fonts.cs" />
+    <Compile Include="LuaAPI\Graphics.cs" />
+    <Compile Include="LuaAPI\LWindow.cs" />
+    <Compile Include="EmbeddedResources.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -65,5 +69,11 @@
       <Link>liblua52.dylib</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LuaAPI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LuaAPI\init.lua" />
   </ItemGroup>
 </Project>
