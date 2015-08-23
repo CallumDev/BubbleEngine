@@ -35,8 +35,8 @@ namespace BubbleEngine
 			//Game loop
 			running = true;
 			#if DEBUGMAC
-			double last = SDL2.SDL_GetTicks() / 1000;
-
+			ulong last = SDL2.SDL_GetPerformanceCounter();
+			ulong startTick = last;
 			#else
 			var timer = new Stopwatch();
 			timer.Start ();
@@ -56,7 +56,8 @@ namespace BubbleEngine
 				Threading.Update();
 				//Run game code
 				#if DEBUGMAC
-				double current = SDL2.SDL_GetTicks() / 1000;
+				ulong currentTicks = SDL2.SDL_GetPerformanceCounter();
+				var current = (double)(currentTicks - startTick) / (double)SDL2.SDL_GetPerformanceFrequency();
 				var t = new GameTime(TimeSpan.FromSeconds(elapsed), TimeSpan.FromSeconds(current));
 				#else
 				var t = new GameTime(TimeSpan.FromSeconds(elapsed), timer.Elapsed);
@@ -71,8 +72,8 @@ namespace BubbleEngine
 				}
 				//Time
 				#if DEBUGMAC
-				elapsed = current - last;
-				last = current;
+				elapsed = (double)(currentTicks - last) / (double)SDL2.SDL_GetPerformanceFrequency();
+				last = currentTicks;
 				#else
 				elapsed = timer.Elapsed.TotalSeconds - last;
 				last = timer.Elapsed.TotalSeconds;

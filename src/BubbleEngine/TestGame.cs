@@ -51,13 +51,13 @@ namespace BubbleEngine
 		}
 		protected override void Update (GameTime gameTime)
 		{
-			updateFunction.Call (gameTime);
+			updateFunction.Call (new LuaAPI.LGameTime(gameTime));
 		}
 		protected override void Draw (GameTime gameTime)
 		{
 			//Test: red, blue, green + white rectangles
 			spriteBatch.Begin ();
-			drawFunction.Call (gameTime);
+			drawFunction.Call (new LuaAPI.LGameTime(gameTime));
 			spriteBatch.End ();
 		}
 	}

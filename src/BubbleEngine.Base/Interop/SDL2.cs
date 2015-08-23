@@ -216,11 +216,15 @@ namespace BubbleEngine
 		public static GL_SwapWindow SDL_GL_SwapWindow;
 		#endregion
 
-		#region Get Ticks (Mac Debug)
+		#region Performance Counter (Mac Debug)
 		#if DEBUGMAC
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		public delegate uint GetTicks();
-		public static GetTicks SDL_GetTicks;
+		public delegate ulong GetPerformanceCounter();
+		public static GetPerformanceCounter SDL_GetPerformanceCounter;
+
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate ulong GetPerformanceFrequency();
+		public static GetPerformanceFrequency SDL_GetPerformanceFrequency;
 		#endif
 		#endregion
 		/// <summary>

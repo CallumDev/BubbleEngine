@@ -27,9 +27,9 @@ namespace BubbleEngine.LuaAPI
 		{
 			sb = spriteBatch;
 		}
-		public void drawString(LuaFont font, string text, int x, int y)
+		public void drawString(LuaFont font, string text, int x, int y, LuaTable color)
 		{
-			font.Font.DrawString (sb, text, x, y, Color4.White);
+			font.Font.DrawString (sb, text, x, y, Util.ColorFromTable(color));
 		}
 		public void draw(LuaTexture tex, double x, double y)
 		{
