@@ -1,4 +1,4 @@
-﻿#region License
+﻿ #region License
 /*
  * Bubble Engine
  * This file is licensed under the MIT License. See LICENSE for Details

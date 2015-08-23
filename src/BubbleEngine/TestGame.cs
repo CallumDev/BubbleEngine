@@ -31,10 +31,12 @@ namespace BubbleEngine
 					new Type[] { typeof(string) }
 				)
 			);
+			state ["runtime"] = new LuaAPI.Runtime();
 			state ["fonts"] = new LuaAPI.Fonts (FontContext);
 			state ["graphics"] = new LuaAPI.Graphics (spriteBatch);
 			state ["window"] = new LuaAPI.LWindow (Window);
 			state ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
+			LuaAPI.Util.RegisterEnum (typeof(Keys), state);
 			state ["embedres"] = new LuaAPI.EmbeddedLoader ();
 			//run init scripts
 			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));

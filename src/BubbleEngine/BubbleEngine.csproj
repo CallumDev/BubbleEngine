@@ -53,6 +53,7 @@
     <Compile Include="LuaAPI\Util.cs" />
     <Compile Include="LuaAPI\LKeyboard.cs" />
     <Compile Include="LuaAPI\EmbeddedLoader.cs" />
+    <Compile Include="LuaAPI\Runtime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

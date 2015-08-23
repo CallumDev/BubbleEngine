@@ -1,5 +1,5 @@
 ﻿function handle_keydown(e)
-	print(e.Key)
+	print(keys.getString(e.key))
 end
 
 function game.load()
@@ -9,7 +9,11 @@ function game.load()
 end
 
 function game.draw(t)
-	graphics:fillRectangle(0, 0, 800, 600, color4.blue)
+	if keyboard:isKeyDown(keys.space) then
+		graphics:fillRectangle(0, 0, 800, 600, color4.blue)
+	else
+		graphics:fillRectangle(0, 0, 800, 600, color4.red)
+	end
 	graphics:drawString(font, "Hello World!", 10, 10)
 end
 
