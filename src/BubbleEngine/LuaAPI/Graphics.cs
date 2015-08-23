@@ -1,5 +1,5 @@
 ﻿using System;
-
+using NLua;
 namespace BubbleEngine.LuaAPI
 {
 	public class LuaTexture
@@ -34,6 +34,19 @@ namespace BubbleEngine.LuaAPI
 		public void draw(LuaTexture tex, double x, double y)
 		{
 			sb.Draw (tex.Texture, new Vector2 ((float)x, (float)y), Color4.White);
+		}
+		public void fillRectangle(double x, double y, double w, double h, LuaTable color)
+		{
+			if (color == null) {
+				Console.WriteLine ("Null color");
+				throw new Exception ();
+			}
+			sb.FillRectangle (
+				new Rectangle (
+					(int)x, (int)y, (int)w, (int)h
+				), 
+				Util.ColorFromTable (color)
+			);
 		}
 		public LuaTexture newTexture(string filename)
 		{

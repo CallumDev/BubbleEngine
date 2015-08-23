@@ -1,11 +1,6 @@
-﻿-- Enums
-require 'bit32'
-spriteEffects = {
-	none = 0,
-	flipHorizontal = 1,
-	flipVertical = 2,
-	band = bit32.band
-}
+﻿-- Colors
+procure.require('colors')
+-- Enums
 
 -- TODO: Create Sandbox
 println("Initialised");

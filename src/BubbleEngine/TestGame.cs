@@ -34,8 +34,10 @@ namespace BubbleEngine
 			state ["fonts"] = new LuaAPI.Fonts (FontContext);
 			state ["graphics"] = new LuaAPI.Graphics (spriteBatch);
 			state ["window"] = new LuaAPI.LWindow (Window);
-
-			//run init script
+			state ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
+			state ["embedres"] = new LuaAPI.EmbeddedLoader ();
+			//run init scripts
+			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
 			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
 			//run
 			state.DoString (File.ReadAllText ("test.lua"));

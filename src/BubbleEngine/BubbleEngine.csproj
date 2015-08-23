@@ -50,6 +50,9 @@
     <Compile Include="LuaAPI\Graphics.cs" />
     <Compile Include="LuaAPI\LWindow.cs" />
     <Compile Include="EmbeddedResources.cs" />
+    <Compile Include="LuaAPI\Util.cs" />
+    <Compile Include="LuaAPI\LKeyboard.cs" />
+    <Compile Include="LuaAPI\EmbeddedLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,11 +72,15 @@
       <Link>liblua52.dylib</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="colors.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LuaAPI\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LuaAPI\init.lua" />
+    <EmbeddedResource Include="LuaAPI\procure.lua" />
   </ItemGroup>
 </Project>
