@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="NLua">
-      <HintPath>..\..\extern\NLua\Run\Debug\net45\NLua.dll</HintPath>
+      <HintPath>..\..\extern\NLua\Run\Release\net45\NLua.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +73,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="colors.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\liblua52.x64.so">
+      <Link>liblua52.x64.so</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\BubbleDependencies\liblua52.x86.so">
+      <Link>liblua52.x86.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
