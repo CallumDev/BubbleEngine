@@ -27,11 +27,19 @@ namespace BubbleEngine.LuaAPI
 			remove { kbd.TextInput -= value; }
 		}
 
-		public bool isKeyDown(int key) {
-			return kbd.IsKeyDown((Keys)key);
+		public bool isDown(params int[] keys) {
+			foreach (int k in keys) {
+				if (kbd.IsKeyDown ((Keys)k))
+					return true;
+			}
+			return false;
 		}
-		public bool isKeyUp(int key) {
-			return kbd.IsKeyUp ((Keys)key);
+		public bool isUp(params int[] keys) {
+			foreach (int k in keys) {
+				if (kbd.IsKeyUp ((Keys)k))
+					return true;
+			}
+			return false;
 		}
 	}
 	public class LKeyEventArgs

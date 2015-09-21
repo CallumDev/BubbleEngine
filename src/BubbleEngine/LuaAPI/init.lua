@@ -3,6 +3,6 @@ procure.require('colors')
 -- Enums
 
 -- TODO: Create Sandbox
-println("Initialised");
+print("Initialised");
 -- Create empty game object
 game = {}

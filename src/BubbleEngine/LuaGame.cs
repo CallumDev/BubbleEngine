@@ -11,44 +11,38 @@ namespace BubbleEngine
 		LuaTable gameTable;
 		LuaFunction drawFunction;
 		LuaFunction updateFunction;
-		string entry;
+		LuaAPI.Graphics luaGraphics;
 		public LuaGame (string entryPath)
 		{
 			Window.Title = "Bubble Engine";
-			entry = entryPath;
-		}
-		protected override void Load ()
-		{
-			spriteBatch = new SpriteBatch (Window);
-			//load fonts
-			//FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
+			//create lua state
 			state = new BubbleLua (new Lua());
 			state.Lua.LoadCLRPackage ();
-			//create lua state
-			state.Lua.RegisterFunction (
-				"println", 
-				typeof(Console).GetMethod (
-					"WriteLine", 
-					new Type[] { typeof(string) }
-				)
-			);
 			state.Lua ["runtime"] = new LuaAPI.Runtime();
 			state.Lua ["fonts"] = new LuaAPI.Fonts (FontContext);
-			state.Lua ["graphics"] = new LuaAPI.Graphics (spriteBatch);
+			luaGraphics = new LuaAPI.Graphics (null, GraphicsSettings);
+			state.Lua ["graphics"] = luaGraphics;
 			state.Lua ["window"] = new LuaAPI.LWindow (Window);
-			state.Lua ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
 			LuaAPI.Util.RegisterEnum (typeof(Keys), state);
 			state.Lua ["embedres"] = new LuaAPI.EmbeddedLoader ();
 			//run init scripts
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
-			//run
-			state.Lua.DoFile(entry);
+			//config
+			state.Lua.DoFile(entryPath);
 			gameTable = (LuaTable)state.Lua ["game"];
-			var ld = (LuaFunction)gameTable ["load"];
-			ld.Call ();
+			var cfg = (LuaFunction)gameTable ["config"];
+			cfg.Call ();
 			updateFunction = (LuaFunction)gameTable ["update"];
 			drawFunction = (LuaFunction)gameTable ["draw"];
+		}
+		protected override void Load ()
+		{
+			state.Lua ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
+			spriteBatch = new SpriteBatch (Window);
+			luaGraphics.Batch = spriteBatch;
+			var ld = (LuaFunction)gameTable ["load"];
+			ld.Call ();
 		}
 		protected override void Update (GameTime gameTime)
 		{
