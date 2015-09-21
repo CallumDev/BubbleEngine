@@ -43,7 +43,7 @@ namespace BubbleEngine
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
 			//run
-			state.Lua.DoString (File.ReadAllText (entry), entry);
+			state.Lua.DoFile(entry);
 			gameTable = (LuaTable)state.Lua ["game"];
 			var ld = (LuaFunction)gameTable ["load"];
 			ld.Call ();
