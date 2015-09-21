@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -20,6 +21,16 @@ namespace BubbleEngine
 					f.SetValue (null, del);
 				}
 			}
+		}
+		//Make OSX and Linux path searching behave like windows, check executable directory for libraries first.
+		public static string ResolvePath(string path)
+		{
+			if (Path.IsPathRooted (path))
+				return path;
+			var myDir = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
+			if (File.Exists (Path.Combine (myDir, path)))
+				return Path.Combine (myDir, path);
+			return path;
 		}
 	}
 }

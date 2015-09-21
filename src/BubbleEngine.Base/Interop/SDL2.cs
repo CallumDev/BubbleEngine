@@ -35,6 +35,8 @@ namespace BubbleEngine
 {
 	static partial class SDL2
 	{
+		public static bool Loaded = false;
+
 		//The fields do get assigned to, just through reflection.
 		#pragma warning disable 0649
 
@@ -250,8 +252,9 @@ namespace BubbleEngine
 					lib = "SDL2.x86.dll";
 				}
 			}
-			var sdl2_ptr = loader.LoadLibrary (lib);
+			var sdl2_ptr = loader.LoadLibrary (InteropHelper.ResolvePath(lib));
 			InteropHelper.LoadFunctions (typeof(SDL2), (x) => loader.GetProcAddress (sdl2_ptr, x));
+			Loaded = true;
 		}
 	}
 }

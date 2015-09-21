@@ -31,9 +31,13 @@ namespace BubbleEngine.LuaAPI
 		{
 			font.Font.DrawString (sb, text, x, y, Util.ColorFromTable(color));
 		}
-		public void draw(LuaTexture tex, double x, double y)
+		public void draw(LuaTexture tex, double x, double y, LuaTable color)
 		{
-			sb.Draw (tex.Texture, new Vector2 ((float)x, (float)y), Color4.White);
+			sb.Draw (tex.Texture, new Vector2 ((float)x, (float)y), Util.ColorFromTable(color));
+		}
+		public void drawSource(LuaTexture tex, LuaTable source, double x, double y, LuaTable color)
+		{
+			sb.Draw (tex.Texture, Util.RectangleFromTable (source), new Vector2((float)x, (float)y), Util.ColorFromTable (color));
 		}
 		public void fillRectangle(double x, double y, double w, double h, LuaTable color)
 		{

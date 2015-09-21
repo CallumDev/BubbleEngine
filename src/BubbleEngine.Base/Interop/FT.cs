@@ -60,25 +60,27 @@ namespace BubbleEngine
 		{
 			var loader = Platform.GetDllLoader ();
 			IntPtr library = IntPtr.Zero;
+			string libPath = "";
 			switch (Platform.CurrentPlatform) {
 			case Platforms.Linux:
-				library = loader.LoadLibrary ("libfreetype.so.6");
+				libPath = "libfreetype.so.6";
 				break;
 			case Platforms.Windows:
 				if (Environment.Is64BitProcess) {
-					library = loader.LoadLibrary ("freetype6.x64.dll");
+					libPath = "freetype6.x64.dll";
 				} else {
-					library = loader.LoadLibrary ("freetype6.x86.dll");
+					libPath = "freetype6.x86.dll";
 				}
 				break;
 			case Platforms.OSX:
 				if (Environment.Is64BitProcess) {
-					library = loader.LoadLibrary ("libfreetype.6.x64.dylib");
+					libPath = "libfreetype.6.x64.dylib";
 				} else {
-					library = loader.LoadLibrary ("libfreetype.6.x86.dylib");
+					libPath = "libfreetype.6.x86.dylib";
 				}
 				break;
 			}
+			library = loader.LoadLibrary (InteropHelper.ResolvePath(libPath));
 			InteropHelper.LoadFunctions (typeof(FT), (x) => loader.GetProcAddress (library, x));
 			Loaded = true;
 		}

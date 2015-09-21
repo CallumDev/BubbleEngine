@@ -81,6 +81,7 @@
     <Compile Include="Input\MouseEventArgs.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\KeyEventArgs.cs" />
+    <Compile Include="MessageBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

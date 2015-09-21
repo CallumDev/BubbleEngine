@@ -142,7 +142,12 @@ namespace BubbleEngine
 		}
 		public void Draw(Texture tex, Rectangle? sourceRect, Vector2 position, Color4 color)
 		{
-			Draw (tex, sourceRect, new Rectangle ((int)position.X, (int)position.Y, tex.Width, tex.Height), color);
+			var r = new Rectangle ((int)position.X, (int)position.Y, tex.Width, tex.Height);
+			if (sourceRect != null) {
+				r.Width = sourceRect.Value.Width;
+				r.Height = sourceRect.Value.Height;
+			}
+			Draw (tex, sourceRect, r, color);
 		}
 		public void Draw(Texture tex, Rectangle? sourceRect, Rectangle destRect, Color4 color)
 		{

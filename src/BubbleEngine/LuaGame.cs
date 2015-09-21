@@ -4,23 +4,24 @@ using System.Reflection;
 using NLua;
 namespace BubbleEngine
 {
-	public class TestGame : GameBase
+	public class LuaGame : GameBase
 	{
 		SpriteBatch spriteBatch;
 		BubbleLua state;
 		LuaTable gameTable;
 		LuaFunction drawFunction;
 		LuaFunction updateFunction;
-		public TestGame ()
+		string entry;
+		public LuaGame (string entryPath)
 		{
 			Window.Title = "Bubble Engine";
+			entry = entryPath;
 		}
-			
 		protected override void Load ()
 		{
 			spriteBatch = new SpriteBatch (Window);
 			//load fonts
-			FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
+			//FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
 			state = new BubbleLua (new Lua());
 			state.Lua.LoadCLRPackage ();
 			//create lua state
@@ -42,7 +43,7 @@ namespace BubbleEngine
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
 			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
 			//run
-			state.Lua.DoString (File.ReadAllText ("test.lua"), "test.lua");
+			state.Lua.DoString (File.ReadAllText (entry), entry);
 			gameTable = (LuaTable)state.Lua ["game"];
 			var ld = (LuaFunction)gameTable ["load"];
 			ld.Call ();
@@ -55,7 +56,6 @@ namespace BubbleEngine
 		}
 		protected override void Draw (GameTime gameTime)
 		{
-			//Test: red, blue, green + white rectangles
 			spriteBatch.Begin ();
 			drawFunction.Call (new LuaAPI.LGameTime(gameTime));
 			spriteBatch.End ();

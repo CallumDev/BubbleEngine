@@ -16,6 +16,15 @@ namespace BubbleEngine.LuaAPI
 			c.A = (float)(double)l [4];
 			return c;
 		}
+		public static Rectangle RectangleFromTable(LuaTable l)
+		{
+			Rectangle r = new Rectangle ();
+			r.X = (int)(double)l [1];
+			r.Y = (int)(double)l [2];
+			r.Width = (int)(double)l [3];
+			r.Height = (int)(double)l [4];
+			return r;
+		}
 		delegate string GetStringDelegate(int v);
 		public static void RegisterEnum(Type t, BubbleLua state)
 		{

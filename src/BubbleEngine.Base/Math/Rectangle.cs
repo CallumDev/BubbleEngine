@@ -22,6 +22,11 @@ namespace BubbleEngine
 			Width = width;
 			Height = height;
 		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[X: {0}, Y: {1}, Width: {2}, Height: {3}]",X,Y,Width,Height);
+		}
 	}
 }
 

@@ -9,6 +9,10 @@ namespace BubbleEngine.LuaAPI
 		{
 			ctx = context;
 		}
+		public void loadFallback(string filename)
+		{
+			ctx.LoadFallback(filename);
+		}
 		public LuaFont load(string filename, int size)
 		{
 			return new LuaFont (new Font (ctx, filename, size));
