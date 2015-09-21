@@ -32,6 +32,9 @@ namespace BubbleEngine
 			state.Lua.DoFile(entryPath);
 			gameTable = (LuaTable)state.Lua ["game"];
 			var cfg = (LuaFunction)gameTable ["config"];
+			if (cfg == null) {
+				throw new NLua.Exceptions.LuaScriptException ("Script must have a game.config() function", entryPath);
+			}
 			cfg.Call ();
 			updateFunction = (LuaFunction)gameTable ["update"];
 			drawFunction = (LuaFunction)gameTable ["draw"];
@@ -42,16 +45,19 @@ namespace BubbleEngine
 			spriteBatch = new SpriteBatch (Window);
 			luaGraphics.Batch = spriteBatch;
 			var ld = (LuaFunction)gameTable ["load"];
-			ld.Call ();
+			if(ld != null)
+				ld.Call ();
 		}
 		protected override void Update (GameTime gameTime)
 		{
-			updateFunction.Call (new LuaAPI.LGameTime(gameTime));
+			if(updateFunction != null)
+				updateFunction.Call (new LuaAPI.LGameTime(gameTime));
 		}
 		protected override void Draw (GameTime gameTime)
 		{
 			spriteBatch.Begin ();
-			drawFunction.Call (new LuaAPI.LGameTime(gameTime));
+			if(drawFunction != null)
+				drawFunction.Call (new LuaAPI.LGameTime(gameTime));
 			spriteBatch.End ();
 		}
 	}

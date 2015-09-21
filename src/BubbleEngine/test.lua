@@ -1,15 +1,19 @@
-﻿function handle_keydown(e)
-	print(keys.getString(e.key))
+﻿function game.config()
+	window:setTitle("Hello Lua")
+	graphics:setResolution(640,480)
 end
 
 function game.load()
 	font = fonts:load("../../TestAssets/OpenSans-Regular.ttf", 16)
-	window:setTitle("Hello Lua")
 	keyboard.keyDown:Add(handle_keydown)
 end
 
+function handle_keydown(e)
+	print(keys.getString(e.key))
+end
+
 function game.draw(t)
-	if keyboard:isKeyDown(keys.space) then
+	if keyboard:isDown(keys.space) then
 		graphics:fillRectangle(0, 0, 800, 600, color4.cornflowerBlue)
 	else
 		graphics:fillRectangle(0, 0, 800, 600, color4.crimson)
