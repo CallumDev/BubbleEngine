@@ -155,6 +155,7 @@ namespace BubbleEngine
 				if (c == (uint)'\n') {
 					penY += lineHeight;
 					penX = x;
+					continue;
 				}
 				var glyph = GetGlyph (c);
 				if (glyph.Render) {

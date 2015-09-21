@@ -22,6 +22,11 @@ namespace BubbleEngine.LuaAPI
 		public event LKeyEventHandler keyDown;
 		public event LKeyEventHandler keyUp;
 
+		public event TextInputHandler textInput {
+			add { kbd.TextInput += value; }
+			remove { kbd.TextInput -= value; }
+		}
+
 		public bool isKeyDown(int key) {
 			return kbd.IsKeyDown((Keys)key);
 		}

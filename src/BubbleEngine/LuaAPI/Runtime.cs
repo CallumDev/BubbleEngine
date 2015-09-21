@@ -4,11 +4,12 @@ namespace BubbleEngine.LuaAPI
 {
 	public class Runtime
 	{
-		public string GetEnumString(string assemblyName, string fullName, int value)
+		public void logStringContents(string str)
 		{
-			var asm = Assembly.Load (assemblyName);
-			var t = asm.GetType (fullName);
-			return Util.LowerFirst (Enum.GetName (t, value));
+			foreach (var c in str) {
+				Console.Write("{0}: {1}, ", c, (int)c);
+			}
+			Console.WriteLine ();
 		}
 	}
 }
