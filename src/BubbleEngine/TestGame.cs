@@ -7,7 +7,7 @@ namespace BubbleEngine
 	public class TestGame : GameBase
 	{
 		SpriteBatch spriteBatch;
-		Lua state;
+		BubbleLua state;
 		LuaTable gameTable;
 		LuaFunction drawFunction;
 		LuaFunction updateFunction;
@@ -21,29 +21,29 @@ namespace BubbleEngine
 			spriteBatch = new SpriteBatch (Window);
 			//load fonts
 			FontContext.LoadFallback("../../TestAssets/DroidSansFallback.ttf");
-			state = new Lua ();
-			state.LoadCLRPackage ();
+			state = new BubbleLua (new Lua());
+			state.Lua.LoadCLRPackage ();
 			//create lua state
-			state.RegisterFunction (
+			state.Lua.RegisterFunction (
 				"println", 
 				typeof(Console).GetMethod (
 					"WriteLine", 
 					new Type[] { typeof(string) }
 				)
 			);
-			state ["runtime"] = new LuaAPI.Runtime();
-			state ["fonts"] = new LuaAPI.Fonts (FontContext);
-			state ["graphics"] = new LuaAPI.Graphics (spriteBatch);
-			state ["window"] = new LuaAPI.LWindow (Window);
-			state ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
+			state.Lua ["runtime"] = new LuaAPI.Runtime();
+			state.Lua ["fonts"] = new LuaAPI.Fonts (FontContext);
+			state.Lua ["graphics"] = new LuaAPI.Graphics (spriteBatch);
+			state.Lua ["window"] = new LuaAPI.LWindow (Window);
+			state.Lua ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
 			LuaAPI.Util.RegisterEnum (typeof(Keys), state);
-			state ["embedres"] = new LuaAPI.EmbeddedLoader ();
+			state.Lua ["embedres"] = new LuaAPI.EmbeddedLoader ();
 			//run init scripts
-			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
-			state.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
+			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.procure.lua"));
+			state.Lua.DoString(EmbeddedResources.GetString("BubbleEngine.LuaAPI.init.lua"));
 			//run
-			state.DoString (File.ReadAllText ("test.lua"));
-			gameTable = (LuaTable)state ["game"];
+			state.Lua.DoString (File.ReadAllText ("test.lua"), "test.lua");
+			gameTable = (LuaTable)state.Lua ["game"];
 			var ld = (LuaFunction)gameTable ["load"];
 			ld.Call ();
 			updateFunction = (LuaFunction)gameTable ["update"];

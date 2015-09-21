@@ -55,6 +55,7 @@
     <Compile Include="LuaAPI\EmbeddedLoader.cs" />
     <Compile Include="LuaAPI\Runtime.cs" />
     <Compile Include="LuaAPI\LGameTime.cs" />
+    <Compile Include="LuaAPI\BubbleLua.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -92,5 +93,6 @@
   <ItemGroup>
     <EmbeddedResource Include="LuaAPI\init.lua" />
     <EmbeddedResource Include="LuaAPI\procure.lua" />
+    <EmbeddedResource Include="LuaAPI\bubbleinternal.lua" />
   </ItemGroup>
 </Project>

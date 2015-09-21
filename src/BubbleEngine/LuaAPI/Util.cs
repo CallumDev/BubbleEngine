@@ -5,7 +5,7 @@ using NLua;
 namespace BubbleEngine.LuaAPI
 {
 
-	public static class Util
+	static class Util
 	{
 		public static Color4 ColorFromTable(LuaTable l)
 		{
@@ -17,12 +17,12 @@ namespace BubbleEngine.LuaAPI
 			return c;
 		}
 		delegate string GetStringDelegate(int v);
-		public static void RegisterEnum(Type t, Lua state)
+		public static void RegisterEnum(Type t, BubbleLua state)
 		{
 			//create table
 			var typeName = LowerFirst (t.Name);
-			state.NewTable (typeName);
-			var table = (LuaTable)state [typeName];
+			state.Lua.NewTable ("__" + typeName);
+			var table = (LuaTable)state.Lua ["__" + typeName];
 			//values
 			foreach (var val in Enum.GetValues(t)) {
 				var n = Enum.GetName (t, val);
@@ -30,6 +30,10 @@ namespace BubbleEngine.LuaAPI
 			}
 			//getString function
 			table ["getString"] = new GetStringDelegate((v) => LowerFirst(Enum.GetName(t,v)));
+			state.Lua.DoString (string.Format(@"
+				{0} = bubbleinternal.readonlytable(__{0})
+				__{0} = nil
+			",typeName));
 		}
 
 		public static string LowerFirst(string str)
