@@ -33,11 +33,11 @@ namespace BubbleEngine.LuaAPI
 	public class Graphics
 	{
 		public SpriteBatch Batch;
-		GraphicsSettings settings;
-		internal Graphics (SpriteBatch spriteBatch, GraphicsSettings gsettings)
+		LuaGame game;
+		internal Graphics (SpriteBatch spriteBatch, LuaGame lg)
 		{
 			Batch = spriteBatch;
-			settings = gsettings;
+			game = lg;
 		}
 		public void drawString(LuaFont font, string text, int x, int y, LuaTable color)
 		{
@@ -74,8 +74,9 @@ namespace BubbleEngine.LuaAPI
 		}
 		public void setResolution(int width, int height)
 		{
-			settings.RequestedWidth = width;
-			settings.RequestedHeight = height;
+			game.Graphics.RequestedWidth = width;
+			game.Graphics.RequestedHeight = height;
+			game.ApplyGraphicsMode ();
 		}
 	}
 }

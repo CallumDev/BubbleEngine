@@ -6,6 +6,11 @@ namespace BubbleEngine
 {
 	public class LuaGame : GameBase
 	{
+		public GraphicsSettings Graphics {
+			get {
+				return GraphicsSettings;
+			}
+		}
 		SpriteBatch spriteBatch;
 		BubbleLua state;
 		LuaTable gameTable;
@@ -18,11 +23,11 @@ namespace BubbleEngine
 			//create lua state
 			state = new BubbleLua (new Lua());
 			state.Lua.LoadCLRPackage ();
-			state.Lua ["runtime"] = new LuaAPI.Runtime();
-			state.Lua ["fonts"] = new LuaAPI.Fonts (FontContext);
-			luaGraphics = new LuaAPI.Graphics (null, GraphicsSettings);
-			state.Lua ["graphics"] = luaGraphics;
-			state.Lua ["window"] = new LuaAPI.LWindow (Window);
+			state.Bubble ["runtime"] = new LuaAPI.Runtime();
+			state.Bubble ["fonts"] = new LuaAPI.Fonts (FontContext);
+			luaGraphics = new LuaAPI.Graphics (null, this);
+			state.Bubble ["graphics"] = luaGraphics;
+			state.Bubble ["window"] = new LuaAPI.LWindow (Window);
 			LuaAPI.Util.RegisterEnum (typeof(Keys), state);
 			state.Lua ["embedres"] = new LuaAPI.EmbeddedLoader ();
 			//run init scripts
@@ -41,7 +46,7 @@ namespace BubbleEngine
 		}
 		protected override void Load ()
 		{
-			state.Lua ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
+			state.Bubble ["keyboard"] = new LuaAPI.LKeyboard (Keyboard);
 			spriteBatch = new SpriteBatch (Window);
 			luaGraphics.Batch = spriteBatch;
 			var ld = (LuaFunction)gameTable ["load"];

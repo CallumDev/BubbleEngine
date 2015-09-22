@@ -1,7 +1,7 @@
 -- Colors
 -- Contains all standard HTML colors ( and transparent )
 
-color4 = {}
+local color4 = {}
 
 color4.transparent = { 1, 1, 1, 0 }
 color4.aliceBlue = { 0.9411765, 0.972549, 1, 1 }
@@ -144,3 +144,5 @@ color4.white = { 1, 1, 1, 1 }
 color4.whiteSmoke = { 0.9607843, 0.9607843, 0.9607843, 1 }
 color4.yellow = { 1, 1, 0, 1 }
 color4.yellowGreen = { 0.6039216, 0.8039216, 0.1960784, 1 }
+
+bubble.color4 = color4

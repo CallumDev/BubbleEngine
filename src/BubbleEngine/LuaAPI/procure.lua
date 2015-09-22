@@ -41,10 +41,13 @@ local function preload_loader(name)
     return sformat("no field package.preload['%s']\n", name)
   end
 end
+-- Hide embedres from lua program
+local netembed = embedres
+embedres = nil
 -- CHANGE: Load from .NET embedded resources
 local function embedded_loader(name)
-	if embedres:hasFile(name) then
-		return load(embedres:loadFile(name))
+	if netembed:hasFile(name) then
+		return load(netembed:loadFile(name))
 	else
 		return sformat("no embedder resource ['%s']\n", name)
 	end

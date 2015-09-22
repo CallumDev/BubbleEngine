@@ -94,6 +94,9 @@ namespace BubbleEngine
 		bool fullscreen;
 		public void ApplyGraphicsMode()
 		{
+			if (Window.Handle == IntPtr.Zero) //Not running
+				return;
+			
 			var w = GraphicsSettings.RequestedWidth;
 			var h = GraphicsSettings.RequestedHeight;
 

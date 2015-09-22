@@ -26,12 +26,14 @@ namespace BubbleEngine.LuaAPI
 			return r;
 		}
 		delegate string GetStringDelegate(int v);
+		static Random rand = new Random();
 		public static void RegisterEnum(Type t, BubbleLua state)
 		{
+			string randName = "_" + rand.Next ();
 			//create table
 			var typeName = LowerFirst (t.Name);
-			state.Lua.NewTable ("__" + typeName);
-			var table = (LuaTable)state.Lua ["__" + typeName];
+			state.Lua.NewTable (randName);
+			var table = (LuaTable)state.Lua [randName];
 			//values
 			foreach (var val in Enum.GetValues(t)) {
 				var n = Enum.GetName (t, val);
@@ -39,10 +41,9 @@ namespace BubbleEngine.LuaAPI
 			}
 			//getString function
 			table ["getString"] = new GetStringDelegate((v) => LowerFirst(Enum.GetName(t,v)));
-			state.Lua.DoString (string.Format(@"
-				{0} = bubbleinternal.readonlytable(__{0})
-				__{0} = nil
-			",typeName));
+			var result = state.Lua.DoString (string.Format (@"return bubbleinternal.readonlytable({0})",randName));
+			state.Bubble [typeName] = (LuaTable)result [0];
+			state.Lua.DoString (string.Format ("{0} = nil", randName));
 		}
 
 		public static string LowerFirst(string str)
