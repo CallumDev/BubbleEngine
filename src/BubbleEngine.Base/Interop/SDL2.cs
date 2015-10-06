@@ -218,6 +218,17 @@ namespace BubbleEngine
 		public static GL_SwapWindow SDL_GL_SwapWindow;
 		#endregion
 
+		#region Get Error
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate IntPtr GetError();
+		public static GetError SDL_GetError;
+		public static string GetErrorString()
+		{
+			var ptr = SDL_GetError ();
+			return Marshal.PtrToStringAnsi (ptr);
+		}
+		#endregion
+
 		#region Performance Counter (Mac Debug)
 		#if DEBUGMAC
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
